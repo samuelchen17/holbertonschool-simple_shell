@@ -128,7 +128,6 @@ input = getline(&line, &n, stdin);
 /* break loop upon EOF or error*/
 if (input == -1)
 {
-printf("\n");
 break;
 }
 
@@ -136,6 +135,14 @@ break;
 line[strcspn(line, "\n")] = '\0';
 
 args_arr = get_tokens(line);
+
+/* block invalid command before execve */
+if (args_arr == NULL)
+{
+free_args_arr(args_arr);
+continue;
+}
+
 fork_and_execve(args_arr);
 }
 
