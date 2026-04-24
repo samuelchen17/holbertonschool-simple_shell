@@ -137,7 +137,7 @@ line[strcspn(line, "\n")] = '\0';
 args_arr = get_tokens(line);
 
 /* block invalid command before execve */
-if (args_arr == NULL)
+if (args_arr[0] == NULL)
 {
 free_args_arr(args_arr);
 continue;
