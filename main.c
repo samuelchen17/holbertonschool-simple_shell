@@ -1,5 +1,28 @@
 #include "shell.h"
 
+void fork_and_execve(char **args_arr)
+{
+pid_t pid;
+int status
+
+pid = fork();
+if (pid == -1)
+{
+perror("fork failed");
+exit (1);
+}
+/* on child creation success */
+if (pid == 0)
+{
+// execve here
+}
+else
+{
+/* parent to wait for child process to exit */
+wait(&status);
+}
+}
+
 /**
  * get_tokens - separate words from user input into tokens
  * @line: string of user input
@@ -82,7 +105,7 @@ free(line);
 
 int main(void)
 {
-get_prompt();
+fork_and_execve(get_prompt());
 
 return (0);
 }
