@@ -1,15 +1,30 @@
 #include "shell.h"
 
+void free_args_arr(char **args_arr)
+{
+int i = 0;
+
+if (!args_arr)
+return;
+
+while (args_arr[i] != NULL)
+{
+free(args_arr[i]);
+i++;
+}
+free(args_arr);
+}
+
 void fork_and_execve(char **args_arr)
 {
 pid_t pid;
 int status;
-int i = 0;
 
 pid = fork();
 if (pid == -1)
 {
 perror("fork failed");
+free_args_arr(args_arr);
 exit (1);
 }
 /* on child creation success */
@@ -20,18 +35,14 @@ printf("token passed: [%s]\n", args_arr[0]);
 */
 execve(args_arr[0], args_arr, NULL);
 perror("execve failed");
+free_args_arr(args_arr);
 exit (1);
 }
 else
 {
 /* parent to wait for child process to exit */
 wait(&status);
-while (args_arr[i] != NULL)
-{
-free(args_arr[i]);
-i++;
-}
-free(args_arr);
+free_args_arr(args_arr);
 }
 }
 
