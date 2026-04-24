@@ -37,6 +37,13 @@ i++;
 }
 args_arr[i] = NULL;
 
+i = 0;
+while (args_arr[i] != NULL)
+{
+printf("args arr[%i]: %s\n", i, args_arr[i]);
+i++;
+}
+
 return (args_arr);
 }
 
@@ -49,6 +56,7 @@ void get_prompt(void)
 char *line = NULL;
 size_t n = 0;
 ssize_t input;
+char **args_arr;
 
 while (1)
 {
@@ -62,7 +70,7 @@ printf("\n");
 break;
 }
 
-printf("%s", line);
+args_arr = get_tokens(line);
 }
 
 free(line);
