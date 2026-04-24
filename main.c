@@ -12,6 +12,27 @@ i++;
 }
 }
 
+char *_getenv(const char *name)
+{
+int i = 0;
+size_t n = strlen(name);
+
+while(environ[i] != NULL)
+{
+if (strncmp(environ[i], name, n))
+{
+return (environ[i]);
+}
+i++;
+}
+
+return (NULL);
+// check name exists
+// loop through environ
+// find match to name
+// return match
+}
+
 /**
  * free_args_arr - free argument array created from tokenization
  * @args_arr: argument array created from tokenization
