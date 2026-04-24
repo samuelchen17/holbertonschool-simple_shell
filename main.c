@@ -3,7 +3,8 @@
 void fork_and_execve(char **args_arr)
 {
 pid_t pid;
-int status
+int status;
+int i = 0;
 
 pid = fork();
 if (pid == -1)
@@ -14,12 +15,21 @@ exit (1);
 /* on child creation success */
 if (pid == 0)
 {
-// execve here
+printf("token passed: [%s]\n", args_arr[0]);
+execve(args_arr[0], args_arr, NULL);
+perror("execve failed");
+exit (1);
 }
 else
 {
 /* parent to wait for child process to exit */
 wait(&status);
+while (args_arr[i] != NULL)
+{
+free(args_arr[i]);
+i++;
+}
+free(args_arr);
 }
 }
 
@@ -60,12 +70,14 @@ i++;
 }
 args_arr[i] = NULL;
 
+
 i = 0;
 while (args_arr[i] != NULL)
 {
 printf("args arr[%i]: %s\n", i, args_arr[i]);
 i++;
 }
+
 
 return (args_arr);
 }
@@ -94,6 +106,7 @@ break;
 }
 
 args_arr = get_tokens(line);
+fork_and_execve(args_arr);
 }
 
 free(line);
@@ -105,7 +118,7 @@ free(line);
 
 int main(void)
 {
-fork_and_execve(get_prompt());
+get_prompt();
 
 return (0);
 }
