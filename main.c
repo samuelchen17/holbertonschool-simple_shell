@@ -15,7 +15,9 @@ exit (1);
 /* on child creation success */
 if (pid == 0)
 {
+/* for testing
 printf("token passed: [%s]\n", args_arr[0]);
+*/
 execve(args_arr[0], args_arr, NULL);
 perror("execve failed");
 exit (1);
@@ -70,13 +72,14 @@ i++;
 }
 args_arr[i] = NULL;
 
-
+/* for testing
 i = 0;
 while (args_arr[i] != NULL)
 {
 printf("args arr[%i]: %s\n", i, args_arr[i]);
 i++;
 }
+*/
 
 
 return (args_arr);
@@ -104,6 +107,9 @@ if (input == -1)
 printf("\n");
 break;
 }
+
+/* remove \n for tokenization */
+line[strcspn(line, "\n")] = '\0';
 
 args_arr = get_tokens(line);
 fork_and_execve(args_arr);
