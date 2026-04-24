@@ -19,7 +19,7 @@ size_t n = strlen(name);
 
 while(environ[i] != NULL)
 {
-if (strncmp(environ[i], name, n) == 0 && environ[i][n] == "=")
+if (strncmp(environ[i], name, n) == 0 && environ[i][n] == '=')
 {
 /* needs to return value of env, ptr math */
 return (environ[i] + n + 1);
@@ -29,6 +29,8 @@ i++;
 
 return (NULL);
 }
+
+
 
 /**
  * free_args_arr - free argument array created from tokenization
@@ -188,9 +190,23 @@ int main(int argc, char **argv, char **envp)
 {
 (void)argc;
 (void)argv;
-print_environ(environ);
-printf("=========================\n");
-print_environ(envp);
+(void)envp;
+
+char *token;
+char *path;
+char *tmp;
+
+path = _getenv("PATH");
+tmp = strdup(path);
+token = strtok(tmp, ":");
+
+while (token)
+{
+printf("%s\n", token);
+token = strtok(NULL, ":");
+}
+
+free(tmp);
 
 return (0);
 }
