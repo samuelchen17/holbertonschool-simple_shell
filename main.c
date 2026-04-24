@@ -118,7 +118,11 @@ char **args_arr;
 
 while (1)
 {
+if (isatty(STDIN_FILENO))
+{
 printf("$ ");
+}
+
 input = getline(&line, &n, stdin);
 
 /* break loop upon EOF or error*/
