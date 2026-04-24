@@ -21,7 +21,8 @@ while(environ[i] != NULL)
 {
 if (strncmp(environ[i], name, n) == 0 && environ[i][n] == "=")
 {
-return (environ[i]);
+/* needs to return value of env, ptr math */
+return (environ[i] + n + 1);
 }
 i++;
 }
