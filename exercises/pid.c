@@ -1,4 +1,5 @@
-#include "shell.h"
+#include <stdio.h>
+#include <unistd.h>
 
 void print_pid(void)
 {

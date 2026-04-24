@@ -2,9 +2,7 @@
 #define SHELL_H
 
 #include <stdio.h>
-#include <unistd.h>
-
-void print_pid(void);
-void print_ppid(void);
+#include <string.h>
+#include <stdlib.h>
 
 #endif
