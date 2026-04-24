@@ -1,8 +1,16 @@
 #include "shell.h"
 
+/**
+ * get_tokens - separate words from user input into tokens
+ * @line: string of user input
+ *
+ * Return: array of arguments
+ */
+
 char **get_tokens(char *line)
 {
 char **args_arr;
+/* tmp needed as strtok modifies the str */
 char *token, *tmp = strdup(line);
 int i = 0, count = 0;
 
@@ -32,6 +40,10 @@ args_arr[i] = NULL;
 return (args_arr);
 }
 
+/**
+ * get_prompt - get user input
+ */
+
 void get_prompt(void)
 {
 char *line = NULL;
@@ -55,6 +67,10 @@ printf("%s", line);
 
 free(line);
 }
+
+/**
+ * main - 
+ */
 
 int main(void)
 {
