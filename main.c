@@ -19,7 +19,7 @@ size_t n = strlen(name);
 
 while(environ[i] != NULL)
 {
-if (strncmp(environ[i], name, n))
+if (strncmp(environ[i], name, n) == 0 && environ[i][n] == "=")
 {
 return (environ[i]);
 }
@@ -27,10 +27,6 @@ i++;
 }
 
 return (NULL);
-// check name exists
-// loop through environ
-// find match to name
-// return match
 }
 
 /**
