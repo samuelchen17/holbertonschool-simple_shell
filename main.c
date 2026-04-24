@@ -30,7 +30,24 @@ i++;
 return (NULL);
 }
 
+void tokenise_env(void)
+{
+char *token;
+char *path;
+char *tmp;
 
+path = _getenv("PATH");
+tmp = strdup(path);
+token = strtok(tmp, ":");
+
+while (token)
+{
+printf("%s\n", token);
+token = strtok(NULL, ":");
+}
+
+free(tmp);
+}
 
 /**
  * free_args_arr - free argument array created from tokenization
@@ -192,21 +209,7 @@ int main(int argc, char **argv, char **envp)
 (void)argv;
 (void)envp;
 
-char *token;
-char *path;
-char *tmp;
-
-path = _getenv("PATH");
-tmp = strdup(path);
-token = strtok(tmp, ":");
-
-while (token)
-{
-printf("%s\n", token);
-token = strtok(NULL, ":");
-}
-
-free(tmp);
+tokenise_env();
 
 return (0);
 }
