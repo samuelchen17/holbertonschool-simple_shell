@@ -1,5 +1,9 @@
 #include "shell.h"
 
+/**
+ * free_args_arr - free argument array created from tokenization
+ * @args_arr: argument array created from tokenization
+ */
 void free_args_arr(char **args_arr)
 {
 int i = 0;
@@ -15,6 +19,10 @@ i++;
 free(args_arr);
 }
 
+/**
+ * fork_and_execve - clone current process and execute command in child
+ * @args_arr: argument array created from tokenization
+ */
 void fork_and_execve(char **args_arr)
 {
 pid_t pid;
@@ -25,18 +33,19 @@ if (pid == -1)
 {
 perror("fork failed");
 free_args_arr(args_arr);
-exit (1);
+exit(1);
 }
 /* on child creation success */
 if (pid == 0)
 {
-/* for testing
-printf("token passed: [%s]\n", args_arr[0]);
+/*
+* for testing
+* printf("token passed: [%s]\n", args_arr[0]);
 */
 execve(args_arr[0], args_arr, NULL);
 perror("execve failed");
 free_args_arr(args_arr);
-exit (1);
+exit(1);
 }
 else
 {
@@ -70,8 +79,8 @@ token = strtok(NULL, " ");
 }
 free(tmp);
 
-/* allocate exact mem */
-args_arr = malloc((count + 1) * sizeof(char*));
+/* allocate exact memory */
+args_arr = malloc((count + 1) * sizeof(char *));
 
 /* loop to store tokens */
 token = strtok(line, " ");
@@ -83,7 +92,8 @@ i++;
 }
 args_arr[i] = NULL;
 
-/* for testing
+/*
+* for testing
 i = 0;
 while (args_arr[i] != NULL)
 {
@@ -91,7 +101,6 @@ printf("args arr[%i]: %s\n", i, args_arr[i]);
 i++;
 }
 */
-
 
 return (args_arr);
 }
@@ -130,7 +139,8 @@ free(line);
 }
 
 /**
- * main - 
+ * main - entry to program
+ * Return: int
  */
 
 int main(void)
