@@ -1,4 +1,16 @@
 #include "shell.h"
+extern char **environ;
+
+void print_environ(char **environ)
+{
+int i = 0;
+
+while(environ[i] != NULL)
+{
+printf("%s\n", environ[i]);
+i++;
+}
+}
 
 /**
  * free_args_arr - free argument array created from tokenization
@@ -154,9 +166,13 @@ free(line);
  * Return: int
  */
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
-get_prompt();
+(void)argc;
+(void)argv;
+print_environ(environ);
+printf("=========================\n");
+print_environ(envp);
 
 return (0);
 }
