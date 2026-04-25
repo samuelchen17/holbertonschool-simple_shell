@@ -7,4 +7,16 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+/**
+ * struct list_s - singly linked list
+ * @dir_path: directory path
+ * @next: points to the next node
+ *
+ * Description: singly linked list node structure
+ */
+typedef struct list_s {
+char *dir_path;
+struct list_s* next;
+} list_t;
+
 #endif

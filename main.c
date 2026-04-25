@@ -1,6 +1,11 @@
 #include "shell.h"
 extern char **environ;
 
+void convert_tokens_to_linked_list(char *token)
+{
+
+}
+
 void print_environ(char **environ)
 {
 int i = 0;
@@ -30,7 +35,7 @@ i++;
 return (NULL);
 }
 
-void tokenise_env(void)
+void tokenise_env_paths(void)
 {
 char *token;
 char *path;
@@ -209,7 +214,7 @@ int main(int argc, char **argv, char **envp)
 (void)argv;
 (void)envp;
 
-tokenise_env();
+tokenise_env_paths();
 
 return (0);
 }
