@@ -19,9 +19,10 @@ extern char **environ;
  *
  * Description: singly linked list node structure
  */
-typedef struct list_s {
+typedef struct list_s
+{
 char *dir_path;
-struct list_s* next;
+struct list_s *next;
 } list_t;
 
 /* Prototypes */

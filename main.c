@@ -119,8 +119,8 @@ continue;
 cmd_path = handle_path(args_arr[0]);
 if (!cmd_path)
 {
-printf("Command not found\n");
-return;
+printf("command not found: %s\n", args_arr[0]);
+continue;
 }
 
 fork_and_execve(args_arr, cmd_path);
@@ -131,17 +131,12 @@ free(line);
 
 
 /**
- * main - entry to program
- * Return: int
+ * main - entry point for simple shell program
+ * Return: 0 on success
  */
 
-int main(int argc, char **argv, char **envp)
+int main(void)
 {
-(void)argc;
-(void)argv;
-(void)envp;
-
 get_prompt();
-
 return (0);
 }

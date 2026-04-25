@@ -26,6 +26,33 @@ return (NULL);
 }
 
 /**
+ * build_path - build full path name for command
+ * @cmd: command input from user
+ *
+ * Return: full path to executable, NULL if not found
+ */
+char *build_path(char *token, char *cmd)
+{
+char *path;
+size_t len;
+
+len = strlen(token) + strlen(cmd) + 2;
+
+path = malloc(len);
+if (!path)
+{
+return (NULL);
+}
+
+/* build the path */
+strcpy(path, token);
+strcat(path, "/");
+strcat(path, cmd);
+
+return (path);
+}
+
+/**
  * handle_path - check if path exists
  * @cmd: command input from user
  *
@@ -34,12 +61,10 @@ return (NULL);
 
 char *handle_path(char *cmd)
 {
-char *token;
+char *token,
 char *path;
 char *tmp;
-size_t len = 0;
 char *cmd_path = NULL;
-
 struct stat file_info;
 
 path = _getenv("PATH");
@@ -54,19 +79,12 @@ token = strtok(tmp, ":");
 
 while (token)
 {
-len = strlen(token) + strlen(cmd) + 2;
-
-cmd_path = malloc(len);
+cmd_path = build_path(token, cmd);
 if (!cmd_path)
 {
 free(tmp);
 return (NULL);
 }
-
-/* build the path */
-strcpy(cmd_path, token);
-strcat(cmd_path, "/");
-strcat(cmd_path, cmd);
 
 /* check if path exists */
 if (stat(cmd_path, &file_info) == 0)
