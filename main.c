@@ -129,6 +129,13 @@ free(line);
 exit(status);
 }
 
+if (strcmp(args_arr[0], "env") == 0)
+{
+print_environ(environ);
+free_args_arr(args_arr);
+continue;
+}
+
 /* block invalid command before execve */
 if (args_arr[0] == NULL)
 {
