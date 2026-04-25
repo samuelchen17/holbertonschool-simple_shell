@@ -129,7 +129,7 @@ continue;
 cmd_path = handle_path(args_arr[0]);
 if (!cmd_path)
 {
-printf("Command not found\n")
+printf("Command not found\n");
 return;
 }
 
@@ -138,6 +138,7 @@ fork_and_execve(args_arr);
 
 free(line);
 }
+
 
 /**
  * main - entry to program

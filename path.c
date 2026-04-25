@@ -176,7 +176,7 @@ return (head);
 }
 
 /**
- * handle_path - 
+ * handle_path - check if path exists
  * @cmd: command input from user
  *
  * Return: full path to executable, NULL if not found
@@ -187,7 +187,8 @@ char *handle_path(char *cmd)
 char *token;
 char *path;
 char *tmp;
-char *cmd_path;
+size_t len = 0;
+char *cmd_path = NULL;
 
 struct stat file_info;
 
@@ -203,8 +204,29 @@ token = strtok(tmp, ":");
 
 while (token)
 {
-// logic goes here
-int stat(const char *restrict path, struct stat *restrict statbuf);
+len = strlen(token) + strlen(cmd) + 2;
+
+cmd_path = malloc(len);
+if (!cmd_path)
+{
+free(tmp);
+return (NULL);
+}
+
+/* build the path */
+strcpy(cmd_path, token);
+strcat(cmd_path, "/");
+strcat(cmd_path, cmd);
+
+/* check if path exists */
+if (stat(cmd_path, &file_info) == 0)
+{
+free(tmp);
+return (cmd_path);
+}
+
+free(cmd_path);
+cmd_path = NULL;
 
 token = strtok(NULL, ":");
 }

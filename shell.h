@@ -25,9 +25,10 @@ struct list_s* next;
 } list_t;
 
 /* Prototypes */
+char *handle_path(char *cmd);
 
 /* Helper prototypes */
-void free_args_arr(char **args_arr)
+void free_args_arr(char **args_arr);
 
 /* Practice Prototypes */
 int new_env_helper(const char *name, const char *value);
