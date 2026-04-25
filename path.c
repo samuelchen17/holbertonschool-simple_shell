@@ -44,7 +44,7 @@ char *cmd_path = NULL;
 struct stat file_info;
 
 path = _getenv("PATH");
-if (!path)
+if (!path || path[0] == '\0')
 return (NULL);
 
 tmp = strdup(path);
