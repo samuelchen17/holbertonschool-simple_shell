@@ -7,6 +7,7 @@
 void fork_and_execve(char **args_arr, char *cmd_path, int *status)
 {
 pid_t pid;
+int wstatus;
 
 pid = fork();
 if (pid == -1)
@@ -30,14 +31,14 @@ exit(1);
 else
 {
 /* parent to wait for child process to exit */
-wait(&status);
+wait(&wstatus);
 
 /* get exit code of child process */
 /* true if child terminated normally */
-if (WIFEXITED(status))
+if (WIFEXITED(wstatus))
 {
 /* set status as the exit status of child process */
-status = WEXITSTATUS(status);
+*status = WEXITSTATUS(wstatus);
 }
 
 free(cmd_path);
