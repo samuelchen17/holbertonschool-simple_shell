@@ -73,16 +73,6 @@ i++;
 }
 args_arr[i] = NULL;
 
-/*
-* for testing
-i = 0;
-while (args_arr[i] != NULL)
-{
-printf("args arr[%i]: %s\n", i, args_arr[i]);
-i++;
-}
-*/
-
 return (args_arr);
 }
 
@@ -152,16 +142,6 @@ int main(int argc, char **argv, char **envp)
 (void)envp;
 
 get_prompt();
-tokenise_env_paths();
-
-/* for testing */
-
-list_t *head = tokenise_env_paths();
-while (head)
-{
-printf("%s\n", head->dir_path);
-head = head->next;
-}
 
 return (0);
 }
