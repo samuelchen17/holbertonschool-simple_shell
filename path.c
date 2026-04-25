@@ -1,11 +1,18 @@
 #include "shell.h"
 
+/**
+ * _getenv - search and return matching env variable
+ * @name: name of env variable to find
+ *
+ * Return: value of env variable
+ */
+
 char *_getenv(const char *name)
 {
 int i = 0;
 size_t n = strlen(name);
 
-while(environ[i] != NULL)
+while (environ[i] != NULL)
 {
 if (strncmp(environ[i], name, n) == 0 && environ[i][n] == '=')
 {
@@ -36,12 +43,12 @@ char *cmd_path = NULL;
 struct stat file_info;
 
 path = _getenv("PATH");
-if(!path)
+if (!path)
 return (NULL);
 
 tmp = strdup(path);
 if (!tmp)
-return NULL;
+return (NULL);
 
 token = strtok(tmp, ":");
 
