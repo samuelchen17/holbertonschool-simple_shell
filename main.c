@@ -1,13 +1,44 @@
 #include "shell.h"
 extern char **environ;
 
+/* rebuild new env to add value */
+int new_env_helper(const char *name, const char *value)
+{
+int size = 0, i = 0;
+char *new_env_var,*new_env;
+
+/* get size of environ for malloc*/
+while(environ[size])
+size++;
+
+new_env = malloc(sizeof(char *) * (size + 2));
+if (!new_env)
+return -1;
+
+/* copy old env to new */
+for (i = 0; i < size; i++)
+{
+new_env[i] = environ[i];
+}
+
+new_env_var = malloc(strlen(name) + strlen(value) + 2);
+if (!new_env_var)
+{
+free(new_env);
+return -1;
+}
+
+sprintf(new_env_var, "%s=%s", name, value);
+new_env[size] = new_env_var;
+new_env[size + 1] = NULL;
+
+environ = new_env;
+
+return (0);
+}
+
 int _setenv(const char *name, const char *value, int overwrite)
 {
-// adds variable name to env
-// if name exists, overwrite the value if overwrite != 0
-// on success, makes copies of the str, 
-// return 0 success, else -1
-
 int i = 0;
 size_t n = strlen(name);
 char *new_env_var;
@@ -17,7 +48,7 @@ while(environ[i])
 {
 if (strncmp(environ[i], name, n) == 0 && environ[i][n] == '=')
 {
-if (overwrite)
+if (overwrite != 0)
 {
 /* +2 for '=' and '\0'*/
 new_env_var = malloc(strlen(name) + strlen(value) + 2);
@@ -25,7 +56,8 @@ if (!new_env_var)
 return -1;
 
 /* build new str to be stored */
-sprintf(new_var, "%s=%s", name, value);
+sprintf(new_env_var, "%s=%s", name, value);
+free(environ[i]);
 environ[i] = new_env_var;
 }
 
@@ -34,7 +66,7 @@ return (0);
 i++;
 }
 
-return (-1);
+return (new_env_helper(name, value));
 }
 
 int _unsetenv(const char *name)
