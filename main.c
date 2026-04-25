@@ -23,7 +23,7 @@ if (pid == 0)
 * for testing
 * printf("token passed: [%s]\n", args_arr[0]);
 */
-execve(cmd_path, args_arr, NULL);
+execve(cmd_path, args_arr, environ);
 perror("execve failed");
 free_args_arr(args_arr);
 exit(1);
@@ -81,13 +81,14 @@ return (args_arr);
  * get_prompt - get user input
  */
 
-void get_prompt(void)
+void get_prompt(char *program_name)
 {
 char *line = NULL;
 size_t n = 0;
 ssize_t input;
 char **args_arr;
 char *cmd_path;
+int line_num = 0;
 
 while (1)
 {
@@ -104,6 +105,8 @@ if (input == -1)
 break;
 }
 
+line_num++;
+
 /* remove \n for tokenization */
 line[strcspn(line, "\n")] = '\0';
 
@@ -118,9 +121,10 @@ continue;
 
 /* HANDLE PATH LOGIC HERE */
 cmd_path = handle_path(args_arr[0]);
+
 if (!cmd_path)
 {
-printf("command not found: %s\n", args_arr[0]);
+fprintf(stderr, "%s: %d: %s: not found\n", program_name, line_num, args_arr[0]);
 free_args_arr(args_arr);
 continue;
 }
@@ -131,14 +135,14 @@ fork_and_execve(args_arr, cmd_path);
 free(line);
 }
 
-
 /**
  * main - entry point for simple shell program
  * Return: 0 on success
  */
 
-int main(void)
+int main(int argc, char **argv)
 {
-get_prompt();
+(void)argc;
+get_prompt(argv[0]);
 return (0);
 }

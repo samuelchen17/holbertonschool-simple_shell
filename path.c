@@ -1,31 +1,6 @@
 #include "shell.h"
 
 /**
- * _getenv - search and return matching env variable
- * @name: name of env variable to find
- *
- * Return: value of env variable
- */
-
-char *_getenv(const char *name)
-{
-int i = 0;
-size_t n = strlen(name);
-
-while (environ[i] != NULL)
-{
-if (strncmp(environ[i], name, n) == 0 && environ[i][n] == '=')
-{
-/* needs to return value of env, ptr math */
-return (environ[i] + n + 1);
-}
-i++;
-}
-
-return (NULL);
-}
-
-/**
  * build_path - build full path name for command
  * @token: directory path
  * @cmd: command input from user
@@ -54,13 +29,13 @@ return (path);
 }
 
 /**
- * handle_path - check if path exists
+ * lookup_path - check if path exists
  * @cmd: command input from user
  *
  * Return: full path to executable, NULL if not found
  */
 
-char *handle_path(char *cmd)
+char *lookup_path(char *cmd)
 {
 char *token;
 char *path;
@@ -102,4 +77,24 @@ token = strtok(NULL, ":");
 
 free(tmp);
 return (NULL);
+}
+
+/**
+ * handle_path - check if path exists
+ * @cmd: command input from user
+ *
+ * Return: full path to executable, NULL if not found
+ */
+
+char *handle_path(char *cmd)
+{
+if (strchr(cmd, '/'))
+{
+if (access(cmd, X_OK) == 0)
+return strdup(cmd);
+
+return (NULL);
+}
+
+return (lookup_path(cmd));
 }
