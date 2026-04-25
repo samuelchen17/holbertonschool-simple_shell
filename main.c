@@ -4,7 +4,7 @@
  * fork_and_execve - clone current process and execute command in child
  * @args_arr: argument array created from tokenization
  */
-void fork_and_execve(char **args_arr, char *cmd_path, int status)
+void fork_and_execve(char **args_arr, char *cmd_path, int *status)
 {
 pid_t pid;
 
@@ -146,7 +146,7 @@ free_args_arr(args_arr);
 continue;
 }
 
-fork_and_execve(args_arr, cmd_path, status);
+fork_and_execve(args_arr, cmd_path, &status);
 }
 
 free(line);
