@@ -30,11 +30,11 @@ if (*head == NULL)
 return (node);
 }
 
-p = *head;
-while (p->next != NULL)
-p = p->next;
+ptr = *head;
+while (ptr->next != NULL)
+ptr = ptr->next;
 
-p->next = node;
+ptr->next = node;
 
 return (*head);
 }
@@ -256,12 +256,17 @@ int main(int argc, char **argv, char **envp)
 (void)argv;
 (void)envp;
 
+tokenise_env_paths();
+
+
+/* for testing */
+/*
 list_t *head = tokenise_env_paths();
 while (head)
 {
 printf("%s\n", head->dir_path);
 head = head->next;
 }
-
+*/
 return (0);
 }
