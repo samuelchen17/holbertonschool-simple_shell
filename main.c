@@ -32,6 +32,7 @@ else
 {
 /* parent to wait for child process to exit */
 wait(&status);
+free(cmd_path);
 free_args_arr(args_arr);
 }
 }
