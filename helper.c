@@ -44,6 +44,11 @@ i++;
 return (NULL);
 }
 
+/**
+ * print_environ - print all environment variables
+ * @environ: environment variables
+ */
+
 void print_environ(char **environ)
 {
 int i = 0;
