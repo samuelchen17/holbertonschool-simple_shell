@@ -27,6 +27,7 @@ return (NULL);
 
 /**
  * build_path - build full path name for command
+ * @token: directory path
  * @cmd: command input from user
  *
  * Return: full path to executable, NULL if not found
