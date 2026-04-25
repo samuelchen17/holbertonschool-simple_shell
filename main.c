@@ -4,7 +4,7 @@
  * fork_and_execve - clone current process and execute command in child
  * @args_arr: argument array created from tokenization
  */
-void fork_and_execve(char **args_arr)
+void fork_and_execve(char **args_arr, char *cmd_path)
 {
 pid_t pid;
 int status;
@@ -23,7 +23,7 @@ if (pid == 0)
 * for testing
 * printf("token passed: [%s]\n", args_arr[0]);
 */
-execve(args_arr[0], args_arr, NULL);
+execve(cmd_path, args_arr, NULL);
 perror("execve failed");
 free_args_arr(args_arr);
 exit(1);
@@ -133,7 +133,7 @@ printf("Command not found\n");
 return;
 }
 
-fork_and_execve(args_arr);
+fork_and_execve(args_arr, cmd_path);
 }
 
 free(line);
