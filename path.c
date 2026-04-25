@@ -29,13 +29,13 @@ return (path);
 }
 
 /**
- * handle_path - check if path exists
+ * lookup_path - check if path exists
  * @cmd: command input from user
  *
  * Return: full path to executable, NULL if not found
  */
 
-char *handle_path(char *cmd)
+char *lookup_path(char *cmd)
 {
 char *token;
 char *path;
@@ -77,4 +77,19 @@ token = strtok(NULL, ":");
 
 free(tmp);
 return (NULL);
+}
+
+/**
+ * handle_path - check if path exists
+ * @cmd: command input from user
+ *
+ * Return: full path to executable, NULL if not found
+ */
+
+char *handle_path(char *cmd)
+{
+if (strchr(cmd, '/'))
+return strdup(cmd); 
+
+return (lookup_path(cmd));
 }
