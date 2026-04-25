@@ -32,6 +32,7 @@ else
 {
 /* parent to wait for child process to exit */
 wait(&status);
+free(cmd_path);
 free_args_arr(args_arr);
 }
 }
@@ -120,6 +121,7 @@ cmd_path = handle_path(args_arr[0]);
 if (!cmd_path)
 {
 printf("command not found: %s\n", args_arr[0]);
+free_args_arr(args_arr);
 continue;
 }
 
