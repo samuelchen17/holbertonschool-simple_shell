@@ -7,6 +7,10 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
+extern char **environ;
+
+/* Structs */
+
 /**
  * struct list_s - singly linked list
  * @dir_path: directory path
@@ -18,5 +22,17 @@ typedef struct list_s {
 char *dir_path;
 struct list_s* next;
 } list_t;
+
+/* Prototypes */
+
+
+/* Practice Prototypes */
+int new_env_helper(const char *name, const char *value);
+int _setenv(const char *name, const char *value, int overwrite);
+int _unsetenv(const char *name);
+list_t *add_node_end(list_t **head, char *token);
+void print_environ(char **environ);
+char *_getenv(const char *name);
+list_t *tokenise_env_paths(void);
 
 #endif
