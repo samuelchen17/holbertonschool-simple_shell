@@ -5,7 +5,8 @@ extern char **environ;
 int new_env_helper(const char *name, const char *value)
 {
 int size = 0, i = 0;
-char *new_env_var,*new_env;
+char *new_env_var;
+char **new_env;
 
 /* get size of environ for malloc*/
 while(environ[size])
@@ -71,9 +72,13 @@ return (new_env_helper(name, value));
 
 int _unsetenv(const char *name)
 {
-// deletes variable name from env
-// if no name match, env is unchanged
-// return 0 success, else -1
+/*
+deletes variable name from env
+if no name match, env is unchanged
+return 0 success, else -1
+*/
+(void)name;
+return (0);
 }
 
 list_t *add_node_end(list_t **head, char *token)
@@ -332,6 +337,17 @@ int main(int argc, char **argv, char **envp)
 (void)envp;
 
 tokenise_env_paths();
+
+ printf("Before:\n%s\n\n", _getenv("MYVAR"));
+
+    _setenv("MYVAR", "hello", 1);
+    printf("After set:\n%s\n", _getenv("MYVAR"));
+
+    _setenv("MYVAR", "world", 1);
+    printf("After overwrite:\n%s\n", _getenv("MYVAR"));
+
+    _setenv("MYVAR", "ignored", 0);
+    printf("After no-overwrite:\n%s\n", _getenv("MYVAR"));
 
 
 /* for testing */
