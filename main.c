@@ -89,6 +89,7 @@ ssize_t input;
 char **args_arr;
 char *cmd_path;
 int line_num = 0;
+int status = 0;
 
 while (1)
 {
@@ -125,6 +126,7 @@ cmd_path = handle_path(args_arr[0]);
 if (!cmd_path)
 {
 fprintf(stderr, "%s: %d: %s: not found\n", program_name, line_num, args_arr[0]);
+status = 127;
 free_args_arr(args_arr);
 continue;
 }
@@ -133,6 +135,7 @@ fork_and_execve(args_arr, cmd_path);
 }
 
 free(line);
+exit(status);
 }
 
 /**
