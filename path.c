@@ -62,7 +62,7 @@ return (path);
 
 char *handle_path(char *cmd)
 {
-char *token,
+char *token;
 char *path;
 char *tmp;
 char *cmd_path = NULL;

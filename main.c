@@ -6,8 +6,8 @@
  */
 void fork_and_execve(char **args_arr, char *cmd_path)
 {
-	pid_t pid;
-	int status;
+pid_t pid;
+int status;
 
 pid = fork();
 if (pid == -1)
@@ -37,35 +37,49 @@ free_args_arr(args_arr);
 }
 
 /**
- * get_tokens - Separate words from user input into tokens
- * @line: String of user input
+ * get_tokens - separate words from user input into tokens
+ * @line: string of user input
  *
- * Return: Array of arguments
+ * Return: array of arguments
  */
+
 char **get_tokens(char *line)
 {
-	char **args_arr;
-	char *token, *tmp = strdup(line);
-	int i = 0, count = 0;
+char **args_arr;
+/* tmp needed as strtok modifies the str */
+char *token, *tmp = strdup(line);
+int i = 0, count = 0;
 
-	token = strtok(tmp, " ");
-	while (token != NULL)
-	{
-		count++;
-		token = strtok(NULL, " ");
-	}
-	free(tmp);
+/* first iteration count tokens for malloc size*/
+token = strtok(tmp, " ");
+while (token != NULL)
+{
+count++;
+/* strtok stores /0 when it stops, by using NULL it will continue to next */
+token = strtok(NULL, " ");
+}
+free(tmp);
 
-	args_arr = malloc((count + 1) * sizeof(char *));
-	if (args_arr == NULL)
-		return (NULL);
+/* allocate exact memory */
+args_arr = malloc((count + 1) * sizeof(char *));
+
+/* loop to store tokens */
+token = strtok(line, " ");
+while (token != NULL)
+{
+args_arr[i] = strdup(token);
+token = strtok(NULL, " ");
+i++;
+}
+args_arr[i] = NULL;
 
 return (args_arr);
 }
 
 /**
- * get_prompt - Get user input
+ * get_prompt - get user input
  */
+
 void get_prompt(void)
 {
 char *line = NULL;
@@ -74,26 +88,25 @@ ssize_t input;
 char **args_arr;
 char *cmd_path;
 
-	while (1)
-	{
-		if (isatty(STDIN_FILENO))
-			printf("$ ");
+while (1)
+{
+if (isatty(STDIN_FILENO))
+{
+printf("$ ");
+}
 
-		input = getline(&line, &n, stdin);
-		if (input == -1)
-			break;
+input = getline(&line, &n, stdin);
 
-		line[strcspn(line, "\n")] = '\0';
-		args_arr = get_tokens(line);
+/* break loop upon EOF or error*/
+if (input == -1)
+{
+break;
+}
 
-		if (args_arr == NULL || args_arr[0] == NULL)
-		{
-			free_args_arr(args_arr);
-			continue;
-		}
+/* remove \n for tokenization */
+line[strcspn(line, "\n")] = '\0';
 
-		fork_and_execve(args_arr);
-	}
+args_arr = get_tokens(line);
 
 /* block invalid command before execve */
 if (args_arr[0] == NULL)
@@ -121,9 +134,9 @@ free(line);
  * main - entry point for simple shell program
  * Return: 0 on success
  */
+
 int main(void)
 {
 get_prompt();
 return (0);
 }
-
