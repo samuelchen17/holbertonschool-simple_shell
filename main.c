@@ -1,6 +1,49 @@
 #include "shell.h"
 extern char **environ;
 
+int _setenv(const char *name, const char *value, int overwrite)
+{
+// adds variable name to env
+// if name exists, overwrite the value if overwrite != 0
+// on success, makes copies of the str, 
+// return 0 success, else -1
+
+int i = 0;
+size_t n = strlen(name);
+char *new_env_var;
+
+/* loop through to find env that match */
+while(environ[i])
+{
+if (strncmp(environ[i], name, n) == 0 && environ[i][n] == '=')
+{
+if (overwrite)
+{
+/* +2 for '=' and '\0'*/
+new_env_var = malloc(strlen(name) + strlen(value) + 2);
+if (!new_env_var)
+return -1;
+
+/* build new str to be stored */
+sprintf(new_var, "%s=%s", name, value);
+environ[i] = new_env_var;
+}
+
+return (0);
+}
+i++;
+}
+
+return (-1);
+}
+
+int _unsetenv(const char *name)
+{
+// deletes variable name from env
+// if no name match, env is unchanged
+// return 0 success, else -1
+}
+
 list_t *add_node_end(list_t **head, char *token)
 {
 list_t *ptr, *node;
