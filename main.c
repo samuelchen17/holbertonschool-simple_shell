@@ -1,25 +1,6 @@
 #include "shell.h"
 
 /**
- * free_args_arr - free argument array created from tokenization
- * @args_arr: argument array created from tokenization
- */
-void free_args_arr(char **args_arr)
-{
-int i = 0;
-
-if (!args_arr)
-return;
-
-while (args_arr[i] != NULL)
-{
-free(args_arr[i]);
-i++;
-}
-free(args_arr);
-}
-
-/**
  * fork_and_execve - clone current process and execute command in child
  * @args_arr: argument array created from tokenization
  */
@@ -115,6 +96,7 @@ char *line = NULL;
 size_t n = 0;
 ssize_t input;
 char **args_arr;
+char *cmd_path;
 
 while (1)
 {
@@ -143,6 +125,14 @@ free_args_arr(args_arr);
 continue;
 }
 
+/* HANDLE PATH LOGIC HERE */
+cmd_path = handle_path(args_arr[0]);
+if (!cmd_path)
+{
+printf("Command not found\n")
+return;
+}
+
 fork_and_execve(args_arr);
 }
 
@@ -164,13 +154,13 @@ get_prompt();
 tokenise_env_paths();
 
 /* for testing */
-/*
+
 list_t *head = tokenise_env_paths();
 while (head)
 {
 printf("%s\n", head->dir_path);
 head = head->next;
 }
-*/
+
 return (0);
 }

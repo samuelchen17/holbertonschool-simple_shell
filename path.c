@@ -174,3 +174,41 @@ token = strtok(NULL, ":");
 free(tmp);
 return (head);
 }
+
+/**
+ * handle_path - 
+ * @cmd: command input from user
+ *
+ * Return: full path to executable, NULL if not found
+ */
+
+char *handle_path(char *cmd)
+{
+char *token;
+char *path;
+char *tmp;
+char *cmd_path;
+
+struct stat file_info;
+
+path = _getenv("PATH");
+if(!path)
+return (NULL);
+
+tmp = strdup(path);
+if (!tmp)
+return NULL;
+
+token = strtok(tmp, ":");
+
+while (token)
+{
+// logic goes here
+int stat(const char *restrict path, struct stat *restrict statbuf);
+
+token = strtok(NULL, ":");
+}
+
+free(tmp);
+return (NULL);
+}

@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 
 extern char **environ;
 
@@ -25,6 +26,8 @@ struct list_s* next;
 
 /* Prototypes */
 
+/* Helper prototypes */
+void free_args_arr(char **args_arr)
 
 /* Practice Prototypes */
 int new_env_helper(const char *name, const char *value);
