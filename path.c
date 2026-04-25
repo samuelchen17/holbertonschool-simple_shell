@@ -89,7 +89,12 @@ return (NULL);
 char *handle_path(char *cmd)
 {
 if (strchr(cmd, '/'))
-return strdup(cmd); 
+{
+if (access(cmd, X_OK) == 0)
+return strdup(cmd);
+
+return (NULL);
+}
 
 return (lookup_path(cmd));
 }

@@ -23,7 +23,7 @@ if (pid == 0)
 * for testing
 * printf("token passed: [%s]\n", args_arr[0]);
 */
-execve(cmd_path, args_arr, NULL);
+execve(cmd_path, args_arr, environ);
 perror("execve failed");
 free_args_arr(args_arr);
 exit(1);
@@ -134,7 +134,6 @@ fork_and_execve(args_arr, cmd_path);
 
 free(line);
 }
-
 
 /**
  * main - entry point for simple shell program
