@@ -1,9 +1,42 @@
 #include "shell.h"
 extern char **environ;
 
-void convert_tokens_to_linked_list(char *token)
+list_t *add_node_end(list_t **head, char *token)
 {
+list_t *ptr, *node;
 
+/* check if token is valid */
+if (!token)
+return (NULL);
+
+/* malloc memory for node */
+node = malloc(sizeof(list_t));
+if (!node)
+return (NULL);
+
+/* set next for node, cpy token and check for failure */
+node->next = NULL;
+node->dir_path = strdup(token);
+if (!node->dir_path)
+{
+free(node);
+return (NULL);
+}
+
+/* if no list, return node as head */
+if (*head == NULL)
+{
+*head = node;
+return (node);
+}
+
+p = *head;
+while (p->next != NULL)
+p = p->next;
+
+p->next = node;
+
+return (*head);
 }
 
 void print_environ(char **environ)
@@ -35,23 +68,32 @@ i++;
 return (NULL);
 }
 
-void tokenise_env_paths(void)
+list_t *tokenise_env_paths(void)
 {
 char *token;
 char *path;
 char *tmp;
+list_t *head = NULL;
 
 path = _getenv("PATH");
+if(!path)
+return (NULL);
+
 tmp = strdup(path);
+if (!tmp)
+return NULL;
+
 token = strtok(tmp, ":");
 
 while (token)
 {
-printf("%s\n", token);
+/* add to linked list */
+add_node_end(&head, token);
 token = strtok(NULL, ":");
 }
 
 free(tmp);
+return (head);
 }
 
 /**
@@ -214,7 +256,12 @@ int main(int argc, char **argv, char **envp)
 (void)argv;
 (void)envp;
 
-tokenise_env_paths();
+list_t *head = tokenise_env_paths();
+while (head)
+{
+printf("%s\n", head->dir_path);
+head = head->next;
+}
 
 return (0);
 }
