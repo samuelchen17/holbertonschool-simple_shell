@@ -31,13 +31,6 @@ char *handle_path(char *cmd);
 /* Helper prototypes */
 void free_args_arr(char **args_arr);
 char *_getenv(const char *name);
-
-/* Practice Prototypes */
-int new_env_helper(const char *name, const char *value);
-int _setenv(const char *name, const char *value, int overwrite);
-int _unsetenv(const char *name);
-list_t *add_node_end(list_t **head, char *token);
 void print_environ(char **environ);
-list_t *tokenise_env_paths(void);
 
 #endif
