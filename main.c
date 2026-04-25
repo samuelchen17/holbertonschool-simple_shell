@@ -113,6 +113,13 @@ line[strcspn(line, "\n")] = '\0';
 
 args_arr = get_tokens(line);
 
+if (strcmp(args_arr[0], "exit") == 0)
+{
+free_args_arr(args_arr);
+free(line);
+exit(status);
+}
+
 /* block invalid command before execve */
 if (args_arr[0] == NULL)
 {
