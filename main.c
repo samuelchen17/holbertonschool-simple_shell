@@ -4,10 +4,9 @@
  * fork_and_execve - clone current process and execute command in child
  * @args_arr: argument array created from tokenization
  */
-void fork_and_execve(char **args_arr, char *cmd_path)
+void fork_and_execve(char **args_arr, char *cmd_path, int status)
 {
 pid_t pid;
-int status;
 
 pid = fork();
 if (pid == -1)
@@ -32,6 +31,15 @@ else
 {
 /* parent to wait for child process to exit */
 wait(&status);
+
+/* get exit code of child process */
+/* true if child terminated normally */
+if (WIFEXITED(status))
+{
+/* set status as the exit status of child process */
+status = WEXITSTATUS(status);
+}
+
 free(cmd_path);
 free_args_arr(args_arr);
 }
@@ -138,7 +146,7 @@ free_args_arr(args_arr);
 continue;
 }
 
-fork_and_execve(args_arr, cmd_path);
+fork_and_execve(args_arr, cmd_path, status);
 }
 
 free(line);
