@@ -6,17 +6,17 @@
  */
 void free_args_arr(char **args_arr)
 {
-int i = 0;
+	int i = 0;
 
-if (!args_arr)
-return;
+	if (!args_arr)
+		return;
 
-while (args_arr[i] != NULL)
-{
-free(args_arr[i]);
-i++;
-}
-free(args_arr);
+	while (args_arr[i] != NULL)
+	{
+		free(args_arr[i]);
+		i++;
+	}
+	free(args_arr);
 }
 
 /**
@@ -28,20 +28,20 @@ free(args_arr);
 
 char *_getenv(const char *name)
 {
-int i = 0;
-size_t n = strlen(name);
+	int i = 0;
+	size_t n = strlen(name);
 
-while (environ[i] != NULL)
-{
-if (strncmp(environ[i], name, n) == 0 && environ[i][n] == '=')
-{
-/* needs to return value of env, ptr math */
-return (environ[i] + n + 1);
-}
-i++;
-}
+	while (environ[i] != NULL)
+	{
+		if (strncmp(environ[i], name, n) == 0 && environ[i][n] == '=')
+		{
+			/* needs to return value of env, ptr math */
+			return (environ[i] + n + 1);
+		}
+		i++;
+	}
 
-return (NULL);
+	return (NULL);
 }
 
 /**
@@ -51,11 +51,11 @@ return (NULL);
 
 void print_environ(char **environ)
 {
-int i = 0;
+	int i = 0;
 
-while(environ[i] != NULL)
-{
-printf("%s\n", environ[i]);
-i++;
-}
+	while (environ[i] != NULL)
+	{
+		printf("%s\n", environ[i]);
+		i++;
+	}
 }
