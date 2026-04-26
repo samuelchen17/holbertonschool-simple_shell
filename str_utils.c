@@ -100,3 +100,47 @@ char *_strchr(const char *s, int c)
 
 	return (NULL);
 }
+
+/**
+ * _strtok - tokenizes a string using given delimiters
+ * @str: input string to tokenize
+ * @delim: string of delimiter characters
+ *
+ * Return: pointer to next token, or NULL if no more tokens
+ */
+
+char *_strtok(char *str, const char *delim)
+{
+	static char *next;
+	char *token_start;
+
+	if (str != NULL)
+		next = str;
+
+	if (next == NULL || delim == NULL)
+		return (NULL);
+
+	while (*next != '\0' && _is_delim(*next, delim))
+		next++;
+
+	if (*next == '\0')
+	{
+		next = NULL;
+		return (NULL);
+	}
+
+	token_start = next;
+
+	while (*next != '\0' && !_is_delim(*next, delim))
+		next++;
+
+	if (*next == '\0')
+	{
+		next = NULL;
+		return (token_start);
+	}
+
+	*next = '\0';
+	next++;
+	return (token_start);
+}
