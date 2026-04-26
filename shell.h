@@ -35,9 +35,24 @@ typedef struct path_node
 	struct path_node *next;
 } path_node_t;
 
+/**
+ * typedef builtin_func_t - function pointer for builtin handlers
+ */
+typedef int (*builtin_func_t)(char **, int *, char *, char *, int);
+
+/**
+ * struct builtin_s - builtin command mapping
+ * @name: builtin command name
+ * @func: function that handles the builtin
+ */
+typedef struct builtin_s
+{
+	char *name;
+	builtin_func_t func;
+} builtin_t;
+
 /* cmd.c */
-int builtin_cmd_handler(char **args_arr, int status, char *line,
-char *program_name, int line_num);
+int builtin_cmd_handler(char **args_arr, int *status, char *line, char *program_name, int line_num);
 void signal_handler(int sig);
 
 /* env.c */

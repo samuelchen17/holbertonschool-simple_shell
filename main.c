@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 			continue;
 		}
 
-		if (builtin_cmd_handler(args_arr, status, line, argv[0], line_num))
+		if (builtin_cmd_handler(args_arr, &status, line, argv[0], line_num))
 			continue;
 
 		cmd_path = handle_path(args_arr[0]);
