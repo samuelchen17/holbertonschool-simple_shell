@@ -110,4 +110,16 @@ int _strcmp(const char *s1, const char *s2);
 char *_strchr(const char *s, int c);
 size_t _strcspn(const char *s, const char *reject);
 
+/* handler.c */
+int handle_exit_cmd(char **args_arr, int *status, char *line,
+	char *program_name, int line_num);
+int handle_env_cmd(char **args_arr, int *status, char *line,
+	char *program_name, int line_num);
+int handle_setenv_cmd(char **args_arr, int *status, char *line,
+	char *program_name, int line_num);
+int handle_unsetenv_cmd(char **args_arr, int *status, char *line,
+	char *program_name, int line_num);
+int handle_cd_cmd(char **args_arr, int *status, char *line,
+	char *program_name, int line_num);
+
 #endif
