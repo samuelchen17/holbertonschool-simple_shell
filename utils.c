@@ -1,5 +1,5 @@
 #include "shell.h"
-#
+
 /**
  * file_exists - checks if a file exists at a given path
  * @path: file path to check

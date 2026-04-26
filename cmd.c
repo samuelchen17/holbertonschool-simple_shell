@@ -57,23 +57,26 @@ void signal_handler(int sig)
  * @program_name: shell program name
  * @line_num: current line number
  *
- * Return: void
+ * Return: int
  */
-void run_cmd(char *cmd, int *status, char *line,
+int run_cmd(char *cmd, int *status, char *line,
 	char *program_name, int line_num)
 {
 	char **args_arr;
 	char *cmd_path;
+	int builtin_status;
 
 	args_arr = get_tokens(cmd);
 	if (args_arr == NULL || args_arr[0] == NULL)
 	{
 		free_args_arr(args_arr);
-		return;
+		return (BUILTIN_HANDLED);
 	}
 
-	if (builtin_cmd_handler(args_arr, status, line, program_name, line_num))
-		return;
+	builtin_status = builtin_cmd_handler(args_arr, status, line,
+		program_name, line_num);
+	if (builtin_status != BUILTIN_NOT_FOUND)
+		return (builtin_status);
 
 	cmd_path = handle_path(args_arr[0]);
 
@@ -83,8 +86,9 @@ void run_cmd(char *cmd, int *status, char *line,
 			program_name, line_num, args_arr[0]);
 		*status = 127;
 		free_args_arr(args_arr);
-		return;
+		return (BUILTIN_HANDLED);
 	}
 
 	execute(args_arr, cmd_path, status);
+	return (BUILTIN_HANDLED);
 }
