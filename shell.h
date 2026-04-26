@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <signal.h>
 
 extern char **environ;
 
@@ -25,11 +26,12 @@ char *dir_path;
 struct list_s *next;
 } list_t;
 
-/* Prototypes */
+/* Helper Prototypes */
 char *handle_path(char *cmd);
 int builtin_cmd_handler(char **args_arr, int status, char *line, char *program_name, int line_num);
+void signalHandler(int sig);
 
-/* Helper prototypes */
+/* Helper Prototypes */
 void free_args_arr(char **args_arr);
 char *_getenv(const char *name);
 void print_environ(char **environ);
