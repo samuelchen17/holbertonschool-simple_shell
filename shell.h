@@ -1,6 +1,8 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+#define CD_BUF_SIZE 1024
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -8,6 +10,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <signal.h>
+#include <sys/syslimits.h>
 
 extern char **environ;
 
@@ -101,6 +104,8 @@ char **split_cmds(char *line);
 int file_exists(char *path);
 int _is_delim(char c, const char *delim);
 void *_realloc(void *ptr, size_t old_size, size_t new_size);
+char *get_cd_path(char **args_arr, int *print_pwd);
+void update_pwd_vars(char *oldpwd, int print_pwd);
 
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 int _atoi(char *s);
