@@ -4,7 +4,7 @@
  * fork_and_execve - clone current process and execute command in child
  * @args_arr: argument array created from tokenization
  * @cmd_path: full path to command
- * @status: shell exit status
+ * @status: exit status of last executed command
  */
 void fork_and_execve(char **args_arr, char *cmd_path, int *status)
 {
@@ -86,10 +86,11 @@ char **get_tokens(char *line)
 }
 
 /**
- * get_prompt - get user input
+ * shell_program - simple shell
  * @program_name: shell program name
  */
-void get_prompt(char *program_name)
+
+void shell_program(char *program_name)
 {
 	char *line = NULL;
 	size_t n = 0;
@@ -118,21 +119,11 @@ void get_prompt(char *program_name)
 			continue;
 		}
 
-		if (strcmp(args_arr[0], "exit") == 0)
-		{
-			free_args_arr(args_arr);
-			free(line);
-			exit(status);
-		}
-
-		if (strcmp(args_arr[0], "env") == 0)
-		{
-			print_environ(environ);
-			free_args_arr(args_arr);
+		if (builtin_cmd_handler(args_arr, status, line, program_name))
 			continue;
-		}
 
 		cmd_path = handle_path(args_arr[0]);
+
 		if (!cmd_path)
 		{
 			fprintf(stderr, "%s: %d: %s: not found\n",
@@ -159,7 +150,7 @@ void get_prompt(char *program_name)
 int main(int argc, char **argv)
 {
 	(void)argc;
-	get_prompt(argv[0]);
+	shell_program(argv[0]);
 	return (0);
 }
 

@@ -27,10 +27,13 @@ struct list_s *next;
 
 /* Prototypes */
 char *handle_path(char *cmd);
+int builtin_cmd_handler(char **args_arr, int status, char *line, char *program_name);
 
 /* Helper prototypes */
 void free_args_arr(char **args_arr);
 char *_getenv(const char *name);
 void print_environ(char **environ);
+int _atoi(char *s);
+int is_num(char *s);
 
 #endif
