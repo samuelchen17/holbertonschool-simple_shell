@@ -7,7 +7,7 @@
  */
 char ***owned_env_ref(void)
 {
-	static char **owned_environ = NULL;
+	static char **owned_environ;
 
 	return (&owned_environ);
 }
