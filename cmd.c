@@ -1,7 +1,5 @@
 #include "shell.h"
 
-
-
 /**
  * handle_exit_cmd - handles exit builtin
  * @args_arr: command arguments

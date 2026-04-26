@@ -24,7 +24,10 @@ int main(int argc, char **argv)
 	while (1)
 	{	
 		if (isatty(STDIN_FILENO))
+		{
 			printf("$ ");
+			fflush(stdout);
+		}
 
 		input = _getline(&line, &n, stdin);
 		if (input == -1)
