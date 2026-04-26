@@ -38,7 +38,7 @@ int valid_env_name(const char *name)
 	if (name == NULL || *name == '\0')
 		return (0);
 
-	if (strchr(name, '=') != NULL)
+	if (_strchr(name, '=') != NULL)
 		return (0);
 
 	return (1);
@@ -295,7 +295,7 @@ int copy_environment(void)
 
 	while (i < count)
 	{
-		new_env[i] = strdup(environ[i]);
+		new_env[i] = _strdup(environ[i]);
 		if (new_env[i] == NULL)
 		{
 			free_partial_env(new_env, i);

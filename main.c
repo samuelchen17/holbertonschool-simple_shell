@@ -26,12 +26,12 @@ int main(int argc, char **argv)
 		if (isatty(STDIN_FILENO))
 			printf("$ ");
 
-		input = getline(&line, &n, stdin);
+		input = _getline(&line, &n, stdin);
 		if (input == -1)
 			break;
 
 		line_num++;
-		line[strcspn(line, "\n")] = '\0';
+		line[_strcspn(line, "\n")] = '\0';
 
 		commands = split_cmds(line);
 		if (commands == NULL)
