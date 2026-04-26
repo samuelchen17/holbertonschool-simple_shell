@@ -1,1 +1,109 @@
-file
+.TH "SIMPLE_SHELL" 1 "26/4/2026" "1.0" "User Commands"
+
+.SH NAME
+simple_shell \- simple UNIX command line interpreter
+
+.SH SYNOPSIS
+.B ./hsh
+.br
+.B echo "command" | ./hsh
+.br
+.B ./hsh < file
+
+.SH DESCRIPTION
+.B simple_shell
+is a simple shell that reads commands from standard input, executes them, and
+waits for more input until the shell is exited or end-of-file is reached.
+
+When run with standard input connected to a terminal, the shell runs in
+interactive mode and displays a prompt before each command.
+
+When input is piped or redirected into the shell, it runs in non-interactive
+mode and executes the given input without displaying a prompt.
+
+.SH OPTIONS
+This shell does not support command line options.
+
+.SH BUILTINS
+.TP
+.B exit
+Exit the shell.
+
+.TP
+.B env
+Print the current environment variables.
+
+.TP
+.B setenv VARIABLE VALUE
+Create or update an environment variable.
+
+.TP
+.B unsetenv VARIABLE
+Remove an environment variable.
+
+.TP
+.B cd [DIRECTORY]
+Change the current working directory.
+
+.SH COMMANDS
+If the input is not a built-in command, the shell attempts to execute it as an
+external program.
+
+Commands may be executed from the current directory or found using the
+.B PATH
+environment variable.
+
+.SH EXAMPLES
+.TP
+.B Interactive mode
+.RS
+./hsh
+.br
+$ ls
+.br
+$ pwd
+.br
+$ echo hello
+.br
+$ exit
+.RE
+
+.TP
+.B Non-interactive mode
+.RS
+echo "ls" | ./hsh
+.RE
+
+.TP
+.B Run commands from a file
+.RS
+./hsh < commands.txt
+.RE
+
+.TP
+.B Print environment
+.RS
+env
+.RE
+
+.TP
+.B Set an environment variable
+.RS
+setenv NAME value
+.RE
+
+.TP
+.B Remove an environment variable
+.RS
+unsetenv NAME
+.RE
+
+.TP
+.B Change directory
+.RS
+cd /tmp
+.RE
+
+.SH AUTHORS
+Ben
+Sam
