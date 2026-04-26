@@ -57,27 +57,28 @@ typedef struct builtin_s
 } builtin_t;
 
 /* cmd.c */
-int builtin_cmd_handler(char **args_arr, int *status,
-	char *line, char *program_name, int line_num);
+int builtin_cmd_handler(char **args_arr, int *status, char *line, char *program_name, int line_num);
 void signal_handler(int sig);
-void run_cmd(char *cmd, int *status, char *line,
-	char *program_name, int line_num);
-int handle_cd_cmd(char **args_arr, int *status, char *line,
-	char *program_name, int line_num);
+void run_cmd(char *cmd, int *status, char *line, char *program_name, int line_num);
+int handle_cd_cmd(char **args_arr, int *status, char *line, char *program_name, int line_num);
 
 /* env.c */
-int valid_env_name(const char *name);
-char *duplicate_string(const char *str);
-size_t count_env(void);
-char *make_env_string(const char *name, const char *value);
-int env_name_matches(const char *env, const char *name);
 char *_getenv(const char *name);
 int _setenv(const char *name, const char *value, int overwrite);
 int _unsetenv(const char *name);
+
+/* env_utils.c */
+int valid_env_name(const char *name);
+size_t count_env(void);
+char *make_env_string(const char *name, const char *value);
+int env_name_matches(const char *env, const char *name);
+void print_environ(char **env);
+
+/* env_mem_utils.c */
+char ***owned_env_ref(void);
 void free_environment(void);
 void free_partial_env(char **env, size_t count);
 int copy_environment(void);
-void print_environ(char **environ);
 
 /* exec.c */
 void execute(char **args_arr, char *cmd_path, int *status);
@@ -99,7 +100,8 @@ char **split_cmds(char *line);
 /* utils.c */
 int file_exists(char *path);
 int _is_delim(char c, const char *delim);
-char *_strtok(char *str, const char *delim);
+void *_realloc(void *ptr, size_t old_size, size_t new_size);
+
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 int _atoi(char *s);
 int is_num(char *s);
@@ -109,6 +111,7 @@ char *_strdup(const char *str);
 int _strcmp(const char *s1, const char *s2);
 char *_strchr(const char *s, int c);
 size_t _strcspn(const char *s, const char *reject);
+char *_strtok(char *str, const char *delim);
 
 /* handler.c */
 int handle_exit_cmd(char **args_arr, int *status, char *line,
