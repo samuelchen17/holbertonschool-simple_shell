@@ -95,4 +95,10 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 int _atoi(char *s);
 int is_num(char *s);
 
+/* str_utils.c */
+char *_strdup(const char *str);
+int _strcmp(const char *s1, const char *s2);
+char *_strchr(const char *s, int c);
+size_t _strcspn(const char *s, const char *reject);
+
 #endif

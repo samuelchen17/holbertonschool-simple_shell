@@ -47,7 +47,7 @@ char *lookup_path(char *cmd)
 	if (!path || path[0] == '\0')
 		return (NULL);
 
-	tmp = strdup(path);
+	tmp = _strdup(path);
 	if (!tmp)
 		return (NULL);
 
@@ -89,10 +89,10 @@ char *lookup_path(char *cmd)
 char *handle_path(char *cmd)
 {
 	/* if direct command, check if executable */
-	if (strchr(cmd, '/'))
+	if (_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
-			return (strdup(cmd));
+			return (_strdup(cmd));
 
 		return (NULL);
 	}
@@ -139,7 +139,7 @@ path_node_t *add_node_end(path_node_t **head, char *dir)
 	if (new_node == NULL)
 		return (NULL);
 
-	new_node->dir = strdup(dir);
+	new_node->dir = _strdup(dir);
 	if (new_node->dir == NULL)
 	{
 		free(new_node);

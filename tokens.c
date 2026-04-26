@@ -12,7 +12,7 @@ char **get_tokens(char *line)
 	char *token, *tmp;
 	int i = 0, count = 0;
 
-	tmp = strdup(line);
+	tmp = _strdup(line);
 	if (tmp == NULL)
 		return (NULL);
 
@@ -31,7 +31,7 @@ char **get_tokens(char *line)
 	token = strtok(line, " ");
 	while (token != NULL)
 	{
-		args_arr[i] = strdup(token);
+		args_arr[i] = _strdup(token);
 		if (args_arr[i] == NULL)
 		{
 			free_args_arr(args_arr);
