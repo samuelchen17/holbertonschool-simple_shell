@@ -129,6 +129,39 @@ int handle_unsetenv_cmd(char **args_arr, int *status, char *line,
 	return (1);
 }
 
+int handle_cd_cmd(char **args_arr, int *status, char *line,
+	char *program_name, int line_num)
+{
+    char *path;
+	(void)status;
+	(void)line;
+	(void)program_name;
+	(void)line_num;
+
+    if (strcmp(args_arr[0], "cd") != 0)
+        return 0;
+
+    if (args_arr[1] == NULL)
+    {
+        path = getenv("HOME");
+    }
+    else if (strcmp(args_arr[1], "-") == 0)
+    {
+        path = getenv("OLDPWD");
+    }
+    else
+    {
+        path = args_arr[1];
+    }
+
+    if (chdir(path) != 0)
+    {
+        perror("cd");
+    }
+
+    return 1;
+}
+
 /**
  * builtin_cmd_handler - dispatches builtin shell commands
  * @args_arr: array of arguments from user input
@@ -146,6 +179,7 @@ int builtin_cmd_handler(char **args_arr, int *status, char *line, char *program_
 		{"env", handle_env_cmd},
 		{"setenv", handle_setenv_cmd},
 		{"unsetenv", handle_unsetenv_cmd},
+		{"cd", handle_cd_cmd},
 		{NULL, NULL}
 	};
 	int i = 0;
