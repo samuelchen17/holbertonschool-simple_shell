@@ -101,7 +101,7 @@ void shell_program(char *program_name)
 	int status = 0;
 
 	while (1)
-	{
+	{	
 		if (isatty(STDIN_FILENO))
 			printf("$ ");
 
@@ -150,7 +150,8 @@ void shell_program(char *program_name)
 int main(int argc, char **argv)
 {
 	(void)argc;
+	signal(SIGINT, signalHandler);
+
 	shell_program(argv[0]);
 	return (0);
 }
-
