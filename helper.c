@@ -59,3 +59,31 @@ void print_environ(char **environ)
 		i++;
 	}
 }
+
+/**
+ * builtin_cmd_handler - handles execution of built in shell commands
+ * @args_arr: array of arguments from user input
+ * @status: exit status of last executed command
+ * @line: raw input line from user
+ *
+ * Return: returns 1 if input is built in command, else 0
+ */
+
+int builtin_cmd_handler(char **args_arr, int status, char *line)
+{
+	if (strcmp(args_arr[0], "exit") == 0)
+		{
+			free_args_arr(args_arr);
+			free(line);
+			exit(status);
+		}
+
+	if (strcmp(args_arr[0], "env") == 0)
+		{
+			print_environ(environ);
+			free_args_arr(args_arr);
+			return (1);
+		}
+	
+	return (0);
+}

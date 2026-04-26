@@ -4,7 +4,7 @@
  * fork_and_execve - clone current process and execute command in child
  * @args_arr: argument array created from tokenization
  * @cmd_path: full path to command
- * @status: shell exit status
+ * @status: exit status of last executed command
  */
 void fork_and_execve(char **args_arr, char *cmd_path, int *status)
 {
@@ -119,19 +119,8 @@ void shell_program(char *program_name)
 			continue;
 		}
 
-		if (strcmp(args_arr[0], "exit") == 0)
-		{
-			free_args_arr(args_arr);
-			free(line);
-			exit(status);
-		}
-
-		if (strcmp(args_arr[0], "env") == 0)
-		{
-			print_environ(environ);
-			free_args_arr(args_arr);
+		if (builtin_cmd_handler(args_arr, status, line))
 			continue;
-		}
 
 		if (args_arr[0] == NULL)
 		{

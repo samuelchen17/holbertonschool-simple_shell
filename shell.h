@@ -32,5 +32,6 @@ char *handle_path(char *cmd);
 void free_args_arr(char **args_arr);
 char *_getenv(const char *name);
 void print_environ(char **environ);
+int builtin_cmd_handler(char **args_arr, int status, char *line);
 
 #endif
