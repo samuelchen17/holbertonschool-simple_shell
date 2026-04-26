@@ -61,29 +61,70 @@ void print_environ(char **environ)
 }
 
 /**
- * builtin_cmd_handler - handles execution of built in shell commands
- * @args_arr: array of arguments from user input
- * @status: exit status of last executed command
- * @line: raw input line from user
+ * is_num - check if string is a number
+ * @s: pointer to string
  *
- * Return: returns 1 if input is built in command, else 0
+ * Return: 1 if true and 0 if false
  */
-
-int builtin_cmd_handler(char **args_arr, int status, char *line)
+int is_num(char *s)
 {
-	if (strcmp(args_arr[0], "exit") == 0)
-		{
-			free_args_arr(args_arr);
-			free(line);
-			exit(status);
-		}
+	int i = 0;
 
-	if (strcmp(args_arr[0], "env") == 0)
-		{
-			print_environ(environ);
-			free_args_arr(args_arr);
-			return (1);
-		}
-	
-	return (0);
+	if (!s)
+		return (0);
+
+	while (s[i])
+	{
+		if (s[i] < '0' || s[i] > '9')
+			return (0);
+		i++;
+	}
+
+	return (1);
+}
+
+/**
+ * _atoi - converts string to integer
+ * @s: pointer to string
+ *
+ * Return: converted integer
+ */
+int _atoi(char *s)
+{
+	int i = 0;
+	int minus_counter = 0;
+	int num = 0;
+	int sign = 1;
+
+	while (s[i] != '\0')
+	{
+		if (s[i] == '-')
+			minus_counter++;
+
+		if (s[i] >= '0' && s[i] <= '9')
+			break;
+
+		i++;
+	}
+
+	/* if no digits, return 0 */
+	if (s[i] == '\0')
+		return (0);
+
+	/* determine the sign */
+	if (minus_counter % 2 == 1)
+		sign = -1;
+
+	/* combine number */
+	while (s[i] >= '0' && s[i] <= '9')
+	{
+		if (sign == 1)
+			num = num * 10 + (s[i] - '0');
+		else
+			num = num * 10 - (s[i] - '0');
+
+		i++;
+	}
+
+	return (num);
 }
