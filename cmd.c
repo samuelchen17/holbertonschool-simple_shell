@@ -43,7 +43,7 @@ int builtin_cmd_handler(char **args_arr, int status, char *line, char *program_n
 	return (0);
 }
 
-void signalHandler(int sig)
+void signal_handler(int sig)
 {
     (void)sig;
     write(STDOUT_FILENO, "\n", 1);

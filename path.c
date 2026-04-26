@@ -99,3 +99,65 @@ char *handle_path(char *cmd)
 
 	return (lookup_path(cmd));
 }
+
+/**
+ * free_path_list - frees PATH linked list
+ * @head: list head
+ *
+ * Return: void
+ */
+void free_path_list(path_node_t *head)
+{
+	path_node_t *temp;
+
+	while (head != NULL)
+	{
+		temp = head;
+		head = head->next;
+		free(temp->dir);
+		free(temp);
+	}
+}
+
+
+/**
+ * add_node_end - adds a PATH directory node to the end of a list
+ * @head: pointer to the head of the list
+ * @dir: directory string to store
+ *
+ * Return: new node, or NULL on failure
+ */
+path_node_t *add_node_end(path_node_t **head, char *dir)
+{
+	path_node_t *new_node;
+	path_node_t *temp;
+
+	if (head == NULL || dir == NULL)
+		return (NULL);
+
+	new_node = malloc(sizeof(path_node_t));
+	if (new_node == NULL)
+		return (NULL);
+
+	new_node->dir = strdup(dir);
+	if (new_node->dir == NULL)
+	{
+		free(new_node);
+		return (NULL);
+	}
+
+	new_node->next = NULL;
+
+	if (*head == NULL)
+	{
+		*head = new_node;
+		return (new_node);
+	}
+
+	temp = *head;
+	while (temp->next != NULL)
+		temp = temp->next;
+
+	temp->next = new_node;
+	return (new_node);
+}
