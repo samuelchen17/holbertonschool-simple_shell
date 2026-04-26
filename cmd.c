@@ -28,6 +28,7 @@ int handle_exit_cmd(char **args_arr, int *status, char *line, char *program_name
 
 	free_args_arr(args_arr);
 	free(line);
+	free_environment(); /* free copied environment, copy was made due to setenv*/
 	exit(exit_status);
 }
 
@@ -70,8 +71,7 @@ int handle_setenv_cmd(char **args_arr, int *status, char *line, char *program_na
 
 	if (args_arr[1] == NULL || args_arr[2] == NULL)
 	{
-		fprintf(stderr, "%s: %d: setenv: Usage: setenv VARIABLE VALUE\n",
-			program_name, line_num);
+		fprintf(stderr, "%s: %d: setenv: Usage: setenv VARIABLE VALUE\n", program_name, line_num);
 		*status = 2;
 		free_args_arr(args_arr);
 		return (1);
@@ -79,8 +79,7 @@ int handle_setenv_cmd(char **args_arr, int *status, char *line, char *program_na
 
 	if (_setenv(args_arr[1], args_arr[2], 1) == -1)
 	{
-		fprintf(stderr, "%s: %d: setenv: failed\n",
-			program_name, line_num);
+		fprintf(stderr, "%s: %d: setenv: failed\n", program_name, line_num);
 		*status = 2;
 	}
 	else
@@ -107,8 +106,7 @@ int handle_unsetenv_cmd(char **args_arr, int *status, char *line,
 
 	if (args_arr[1] == NULL)
 	{
-		fprintf(stderr, "%s: %d: unsetenv: Usage: unsetenv VARIABLE\n",
-			program_name, line_num);
+		fprintf(stderr, "%s: %d: unsetenv: Usage: unsetenv VARIABLE\n", program_name, line_num);
 		*status = 2;
 		free_args_arr(args_arr);
 		return (1);
@@ -116,8 +114,7 @@ int handle_unsetenv_cmd(char **args_arr, int *status, char *line,
 
 	if (_unsetenv(args_arr[1]) == -1)
 	{
-		fprintf(stderr, "%s: %d: unsetenv: failed\n",
-			program_name, line_num);
+		fprintf(stderr, "%s: %d: unsetenv: failed\n", program_name, line_num);
 		*status = 2;
 	}
 	else
@@ -127,8 +124,7 @@ int handle_unsetenv_cmd(char **args_arr, int *status, char *line,
 	return (1);
 }
 
-int handle_cd_cmd(char **args_arr, int *status, char *line,
-	char *program_name, int line_num)
+int handle_cd_cmd(char **args_arr, int *status, char *line, char *program_name, int line_num)
 {
     char *path;
 	(void)status;
@@ -188,8 +184,7 @@ int builtin_cmd_handler(char **args_arr, int *status, char *line, char *program_
 	while (builtins[i].name != NULL)
 	{
 		if (_strcmp(args_arr[0], builtins[i].name) == 0)
-			return (builtins[i].func(args_arr, status, line,
-				program_name, line_num));
+			return (builtins[i].func(args_arr, status, line, program_name, line_num));
 		i++;
 	}
 
@@ -233,8 +228,7 @@ void run_cmd(char *cmd, int *status, char *line,
 
 	if (!cmd_path)
 	{
-		fprintf(stderr, "%s: %d: %s: not found\n",
-			program_name, line_num, args_arr[0]);
+		fprintf(stderr, "%s: %d: %s: not found\n", program_name, line_num, args_arr[0]);
 		*status = 127;
 		free_args_arr(args_arr);
 		return;
