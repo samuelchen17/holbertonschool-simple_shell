@@ -40,7 +40,14 @@ int main(int argc, char **argv)
 
 		while (commands[i] != NULL)
 		{
-			run_cmd(commands[i], &status, line, argv[0], line_num);
+			if (run_cmd(commands[i], &status, line, argv[0], line_num)
+				== BUILTIN_EXIT)
+			{
+				free_args_arr(commands);
+				free(line);
+				free_environment();
+				exit(status);
+			}
 			i++;
 		}
 

@@ -8,12 +8,13 @@
  * @program_name: shell program name
  * @line_num: current line number
  *
- * Return: 1 because command was handled
+ * Return: 2 because shell should exit
  */
 int handle_exit_cmd(char **args_arr, int *status, char *line,
 	char *program_name, int line_num)
 {
 	int exit_status = *status;
+	(void)line;
 
 	if (args_arr[1] != NULL)
 	{
@@ -27,10 +28,9 @@ int handle_exit_cmd(char **args_arr, int *status, char *line,
 			exit_status = _atoi(args_arr[1]);
 	}
 
+	*status = exit_status;
 	free_args_arr(args_arr);
-	free(line);
-	free_environment();
-	exit(exit_status);
+	return (2);
 }
 
 /**
@@ -91,7 +91,7 @@ int handle_setenv_cmd(char **args_arr, int *status, char *line,
 		*status = 0;
 
 	free_args_arr(args_arr);
-	return (1);
+	return (BUILTIN_EXIT);
 }
 
 /**
@@ -163,10 +163,12 @@ int handle_cd_cmd(char **args_arr, int *status, char *line,
 		fprintf(stderr, "%s: %d: cd: can't cd to %s\n",
 			program_name, line_num, path ? path : "");
 		*status = 2;
+		free_args_arr(args_arr);
 		return (1);
 	}
 
 	update_pwd_vars(oldpwd, print_pwd);
 	*status = 0;
+	free_args_arr(args_arr);
 	return (1);
 }

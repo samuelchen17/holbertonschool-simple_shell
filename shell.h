@@ -2,6 +2,9 @@
 #define SHELL_H
 
 #define CD_BUF_SIZE 1024
+#define BUILTIN_NOT_FOUND 0
+#define BUILTIN_HANDLED 1
+#define BUILTIN_EXIT 2
 
 #include <stdio.h>
 #include <string.h>
@@ -62,7 +65,7 @@ typedef struct builtin_s
 int builtin_cmd_handler(char **args_arr, int *status, char *line,
 	char *program_name, int line_num);
 void signal_handler(int sig);
-void run_cmd(char *cmd, int *status, char *line,
+int run_cmd(char *cmd, int *status, char *line,
 	char *program_name, int line_num);
 int handle_cd_cmd(char **args_arr, int *status,
 	char *line, char *program_name, int line_num);
