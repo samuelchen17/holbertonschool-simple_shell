@@ -5,11 +5,12 @@
  * @args_arr: array of arguments from user input
  * @status: exit status of last executed command
  * @line: raw input line from user
+ * @program_name: shell program name
  *
  * Return: returns 1 if input is built in command, else 0
  */
 
-int builtin_cmd_handler(char **args_arr, int status, char *line)
+int builtin_cmd_handler(char **args_arr, int status, char *line, char *program_name)
 {
 	int exit_status = status;
 

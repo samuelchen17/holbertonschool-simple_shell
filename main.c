@@ -119,7 +119,7 @@ void shell_program(char *program_name)
 			continue;
 		}
 
-		if (builtin_cmd_handler(args_arr, status, line))
+		if (builtin_cmd_handler(args_arr, status, line, program_name))
 			continue;
 
 		cmd_path = handle_path(args_arr[0]);
