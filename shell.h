@@ -54,6 +54,7 @@ typedef struct builtin_s
 /* cmd.c */
 int builtin_cmd_handler(char **args_arr, int *status, char *line, char *program_name, int line_num);
 void signal_handler(int sig);
+void run_cmd(char *cmd, int *status, char *line, char *program_name, int line_num);
 
 /* env.c */
 int valid_env_name(const char *name);
@@ -82,6 +83,9 @@ path_node_t *add_node_end(path_node_t **head, char *dir);
 /* tokens.c */
 char **get_tokens(char *line);
 void free_args_arr(char **args_arr);
+int count_cmds(char *line);
+char *copy_cmd(char *line, int start, int end);
+char **split_cmds(char *line);
 
 /* utils.c */
 int file_exists(char *path);
