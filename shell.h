@@ -36,7 +36,12 @@ typedef struct path_node
 } path_node_t;
 
 /**
- * typedef builtin_func_t - function pointer for builtin handlers
+ * builtin_func_t - function pointer type for builtin command handlers
+ * @args_arr: array of command arguments
+ * @status: pointer to last command exit status
+ * @line: raw input line from user
+ * @program_name: name of the shell program
+ * @line_num: current input line number
  */
 typedef int (*builtin_func_t)(char **, int *, char *, char *, int);
 
@@ -52,10 +57,13 @@ typedef struct builtin_s
 } builtin_t;
 
 /* cmd.c */
-int builtin_cmd_handler(char **args_arr, int *status, char *line, char *program_name, int line_num);
+int builtin_cmd_handler(char **args_arr, int *status,
+	char *line, char *program_name, int line_num);
 void signal_handler(int sig);
-void run_cmd(char *cmd, int *status, char *line, char *program_name, int line_num);
-int handle_cd_cmd(char **args_arr, int *status, char *line, char *program_name, int line_num);
+void run_cmd(char *cmd, int *status, char *line,
+	char *program_name, int line_num);
+int handle_cd_cmd(char **args_arr, int *status, char *line,
+	char *program_name, int line_num);
 
 /* env.c */
 int valid_env_name(const char *name);
