@@ -79,15 +79,13 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 	ssize_t bytes;
 	char c, *new_buf;
 	(void)stream;
+
 	if (lineptr == NULL || n == NULL)
 		return (-1);
 	if (*lineptr == NULL || *n == 0)
-	{
-		*n = 128;
-		*lineptr = malloc(sizeof(char) * (*n));
-		if (*lineptr == NULL)
-			return (-1);
-	}
+		*n = 128, *lineptr = malloc(sizeof(char) * (*n));
+	if (*lineptr == NULL)
+		return (-1);
 	while (1)
 	{
 		bytes = read(STDIN_FILENO, &c, 1);

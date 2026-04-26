@@ -79,7 +79,8 @@ void run_cmd(char *cmd, int *status, char *line,
 
 	if (!cmd_path)
 	{
-		fprintf(stderr, "%s: %d: %s: not found\n", program_name, line_num, args_arr[0]);
+		fprintf(stderr, "%s: %d: %s: not found\n",
+			program_name, line_num, args_arr[0]);
 		*status = 127;
 		free_args_arr(args_arr);
 		return;
