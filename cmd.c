@@ -29,8 +29,7 @@ int builtin_cmd_handler(char **args_arr, int *status, char *line,
 	while (builtins[i].name != NULL)
 	{
 		if (_strcmp(args_arr[0], builtins[i].name) == 0)
-			return (builtins[i].func(args_arr, status, line,
-				program_name, line_num));
+			return (builtins[i].func(args_arr, status, line, program_name, line_num));
 		i++;
 	}
 
@@ -80,8 +79,7 @@ void run_cmd(char *cmd, int *status, char *line,
 
 	if (!cmd_path)
 	{
-		fprintf(stderr, "%s: %d: %s: not found\n",
-			program_name, line_num, args_arr[0]);
+		fprintf(stderr, "%s: %d: %s: not found\n", program_name, line_num, args_arr[0]);
 		*status = 127;
 		free_args_arr(args_arr);
 		return;
