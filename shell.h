@@ -57,10 +57,13 @@ typedef struct builtin_s
 } builtin_t;
 
 /* cmd.c */
-int builtin_cmd_handler(char **args_arr, int *status, char *line, char *program_name, int line_num);
+int builtin_cmd_handler(char **args_arr, int *status, char *line,
+	char *program_name, int line_num);
 void signal_handler(int sig);
-void run_cmd(char *cmd, int *status, char *line, char *program_name, int line_num);
-int handle_cd_cmd(char **args_arr, int *status, char *line, char *program_name, int line_num);
+void run_cmd(char *cmd, int *status, char *line,
+	char *program_name, int line_num);
+int handle_cd_cmd(char **args_arr, int *status,
+	char *line, char *program_name, int line_num);
 
 /* env.c */
 char *_getenv(const char *name);
