@@ -145,6 +145,7 @@ char **split_cmds(char *line)
 			commands[j] = copy_cmd(line, start, i);
 			if (commands[j] == NULL)
 			{
+				commands[j] = NULL; 
 				free_args_arr(commands);
 				return (NULL);
 			}
@@ -154,13 +155,17 @@ char **split_cmds(char *line)
 		i++;
 	}
 
-	commands[j] = copy_cmd(line, start, i);
-	if (commands[j] == NULL)
+	if (start < i)
 	{
-		free_args_arr(commands);
-		return (NULL);
+		commands[j] = copy_cmd(line, start, i);
+		if (commands[j] == NULL)
+		{
+			commands[j] = NULL; 
+			free_args_arr(commands);
+			return (NULL);
+		}
+		j++;
 	}
-	j++;
 
 	commands[j] = NULL;
 	return (commands);
