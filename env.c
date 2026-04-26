@@ -182,15 +182,25 @@ int _setenv(const char *name, const char *value, int overwrite)
 	}
 
 	count = i;
-	new_env = realloc(owned_environ, sizeof(char *) * (count + 2));
+
+	new_env = malloc(sizeof(char *) * (count + 2));
 	if (new_env == NULL)
 	{
 		free(new_var);
 		return (-1);
 	}
 
+	i = 0;
+	while (i < count)
+	{
+		new_env[i] = owned_environ[i];
+		i++;
+	}
+
 	new_env[count] = new_var;
 	new_env[count + 1] = NULL;
+
+	free(owned_environ);
 	owned_environ = new_env;
 	environ = owned_environ;
 

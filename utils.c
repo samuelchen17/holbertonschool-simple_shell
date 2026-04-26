@@ -60,6 +60,7 @@ char *_strtok(char *str, const char *delim)
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
 	size_t i = 0;
+	size_t j;
 	size_t new_size;
 	ssize_t bytes;
 	char c;
@@ -91,10 +92,18 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 		if (i + 1 >= *n)
 		{
 			new_size = (*n) * 2;
-			new_buf = realloc(*lineptr, new_size);
+			new_buf = malloc(sizeof(char) * new_size);
 			if (new_buf == NULL)
 				return (-1);
 
+			j = 0;
+			while (j < i)
+			{
+				new_buf[j] = (*lineptr)[j];
+				j++;
+			}
+
+			free(*lineptr);
 			*lineptr = new_buf;
 			*n = new_size;
 		}

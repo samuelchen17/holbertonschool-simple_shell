@@ -16,11 +16,11 @@ char **get_tokens(char *line)
 	if (tmp == NULL)
 		return (NULL);
 
-	token = strtok(tmp, " ");
+	token = _strtok(tmp, " ");
 	while (token != NULL)
 	{
 		count++;
-		token = strtok(NULL, " ");
+		token = _strtok(NULL, " ");
 	}
 	free(tmp);
 
@@ -28,7 +28,7 @@ char **get_tokens(char *line)
 	if (args_arr == NULL)
 		return (NULL);
 
-	token = strtok(line, " ");
+	token = _strtok(line, " ");
 	while (token != NULL)
 	{
 		args_arr[i] = _strdup(token);
@@ -37,7 +37,7 @@ char **get_tokens(char *line)
 			free_args_arr(args_arr);
 			return (NULL);
 		}
-		token = strtok(NULL, " ");
+		token = _strtok(NULL, " ");
 		i++;
 	}
 	args_arr[i] = NULL;
