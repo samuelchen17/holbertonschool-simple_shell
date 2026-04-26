@@ -46,7 +46,6 @@ int main(int argc, char **argv)
 
 		free_args_arr(commands);
 	}
-
 	free(line);
 	free_environment(); /* free copied environment, copy was made due to setenv*/
 	exit(status);
