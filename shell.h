@@ -11,8 +11,6 @@
 
 extern char **environ;
 
-/* Structs */
-
 /**
  * struct list_s - singly linked list
  * @dir_path: directory path
@@ -22,19 +20,59 @@ extern char **environ;
  */
 typedef struct list_s
 {
-char *dir_path;
-struct list_s *next;
+	char *dir_path;
+	struct list_s *next;
 } list_t;
 
-/* Helper Prototypes */
-char *handle_path(char *cmd);
-int builtin_cmd_handler(char **args_arr, int status, char *line, char *program_name, int line_num);
-void signalHandler(int sig);
+/**
+ * struct path_node - singly linked PATH directory list
+ * @dir: directory path
+ * @next: points to the next node
+ */
+typedef struct path_node
+{
+	char *dir;
+	struct path_node *next;
+} path_node_t;
 
-/* Helper Prototypes */
-void free_args_arr(char **args_arr);
+/* cmd.c */
+int builtin_cmd_handler(char **args_arr, int status, char *line,
+char *program_name, int line_num);
+void signal_handler(int sig);
+
+/* env.c */
+int valid_env_name(const char *name);
+char *duplicate_string(const char *str);
+size_t count_env(void);
+char *make_env_string(const char *name, const char *value);
+int env_name_matches(const char *env, const char *name);
 char *_getenv(const char *name);
+int _setenv(const char *name, const char *value, int overwrite);
+int _unsetenv(const char *name);
+void free_environment(void);
+void free_partial_env(char **env, size_t count);
+int copy_environment(void);
 void print_environ(char **environ);
+
+/* exec.c */
+void execute(char **args_arr, char *cmd_path, int *status);
+
+/* path.c */
+char *handle_path(char *cmd);
+char *lookup_path(char *cmd);
+char *build_path(char *dir, char *cmd);
+void free_path_list(path_node_t *head);
+path_node_t *add_node_end(path_node_t **head, char *dir);
+
+/* tokens.c */
+char **get_tokens(char *line);
+void free_args_arr(char **args_arr);
+
+/* utils.c */
+int file_exists(char *path);
+int _is_delim(char c, const char *delim);
+char *_strtok(char *str, const char *delim);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 int _atoi(char *s);
 int is_num(char *s);
 
