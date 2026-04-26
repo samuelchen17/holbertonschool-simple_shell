@@ -10,7 +10,7 @@
  * Return: returns 1 if input is built in command, else 0
  */
 
-int builtin_cmd_handler(char **args_arr, int status, char *line, char *program_name)
+int builtin_cmd_handler(char **args_arr, int status, char *line, char *program_name, int line_num)
 {
 	int exit_status = status;
 
@@ -20,8 +20,8 @@ int builtin_cmd_handler(char **args_arr, int status, char *line, char *program_n
 		{
 			if (!is_num(args_arr[1]))
 			{
-				fprintf(stderr, "%s: exit: %s: numeric argument required\n",
-					program_name, args_arr[1]);
+				fprintf(stderr, "%s: %d: exit: Illegal number: %s\n",
+					program_name, line_num, args_arr[1]);
 				exit_status = 2;
 			}
 			else
