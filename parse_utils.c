@@ -43,7 +43,6 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 		*n = 128;
 		*lineptr = malloc(sizeof(char) * (*n));
 	}
-
 	if (*lineptr == NULL)
 		return (-1);
 	while (1)
