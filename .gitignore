@@ -1,4 +1,5 @@
 /test
+.DS_store
 simple_shell
 test_shell
 exercise.c
