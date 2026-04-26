@@ -86,10 +86,11 @@ char **get_tokens(char *line)
 }
 
 /**
- * get_prompt - get user input
+ * shell_program - simple shell
  * @program_name: shell program name
  */
-void get_prompt(char *program_name)
+
+void shell_program(char *program_name)
 {
 	char *line = NULL;
 	size_t n = 0;
@@ -132,7 +133,14 @@ void get_prompt(char *program_name)
 			continue;
 		}
 
+		if (args_arr[0] == NULL)
+		{
+			free_args_arr(args_arr);
+			continue;
+		}
+
 		cmd_path = handle_path(args_arr[0]);
+
 		if (!cmd_path)
 		{
 			fprintf(stderr, "%s: %d: %s: not found\n",
@@ -159,7 +167,7 @@ void get_prompt(char *program_name)
 int main(int argc, char **argv)
 {
 	(void)argc;
-	get_prompt(argv[0]);
+	shell_program(argv[0]);
 	return (0);
 }
 
