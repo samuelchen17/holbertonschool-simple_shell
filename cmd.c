@@ -170,3 +170,43 @@ void signal_handler(int sig)
     write(STDOUT_FILENO, "\n", 1);
 	write(STDOUT_FILENO, "$ ", 2);
 }
+
+/**
+ * run_cmd - runs one parsed command string
+ * @cmd: command string
+ * @status: shell status
+ * @line: original input line
+ * @program_name: shell program name
+ * @line_num: current line number
+ *
+ * Return: void
+ */
+void run_cmd(char *cmd, int *status, char *line,
+	char *program_name, int line_num)
+{
+	char **args_arr;
+	char *cmd_path;
+
+	args_arr = get_tokens(cmd);
+	if (args_arr == NULL || args_arr[0] == NULL)
+	{
+		free_args_arr(args_arr);
+		return;
+	}
+
+	if (builtin_cmd_handler(args_arr, status, line, program_name, line_num))
+		return;
+
+	cmd_path = handle_path(args_arr[0]);
+
+	if (!cmd_path)
+	{
+		fprintf(stderr, "%s: %d: %s: not found\n",
+			program_name, line_num, args_arr[0]);
+		*status = 127;
+		free_args_arr(args_arr);
+		return;
+	}
+
+	execute(args_arr, cmd_path, status);
+}
