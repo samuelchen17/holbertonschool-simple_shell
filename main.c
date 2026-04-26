@@ -122,12 +122,6 @@ void shell_program(char *program_name)
 		if (builtin_cmd_handler(args_arr, status, line))
 			continue;
 
-		if (args_arr[0] == NULL)
-		{
-			free_args_arr(args_arr);
-			continue;
-		}
-
 		cmd_path = handle_path(args_arr[0]);
 
 		if (!cmd_path)
