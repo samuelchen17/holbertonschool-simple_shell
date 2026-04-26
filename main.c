@@ -12,17 +12,13 @@ int main(int argc, char **argv)
 	char *line = NULL;
 	size_t n = 0;
 	ssize_t input;
-	int line_num = 0;
-	int status = 0;
+	int line_num = 0, status = 0;
 	char **commands;
 	int i;
-
 	(void)argc;
-
 	signal(SIGINT, signal_handler);
-
 	while (1)
-	{	
+	{
 		if (isatty(STDIN_FILENO))
 		{
 			printf("$ ");
