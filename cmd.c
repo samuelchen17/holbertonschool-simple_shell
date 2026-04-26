@@ -141,11 +141,11 @@ int handle_cd_cmd(char **args_arr, int *status, char *line,
 
     if (args_arr[1] == NULL)
     {
-        path = getenv("HOME");
+        path = _getenv("HOME");
     }
     else if (strcmp(args_arr[1], "-") == 0)
     {
-        path = getenv("OLDPWD");
+        path = _getenv("OLDPWD");
     }
     else
     {
