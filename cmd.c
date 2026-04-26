@@ -87,4 +87,6 @@ void run_cmd(char *cmd, int *status, char *line,
 	}
 
 	execute(args_arr, cmd_path, status);
+	free(cmd_path);
+	free_args_arr(args_arr);
 }
