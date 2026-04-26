@@ -59,43 +59,58 @@ char *_strtok(char *str, const char *delim)
 
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
-	size_t i, new_size;
-	int c;
+	size_t i = 0;
+	size_t new_size;
+	ssize_t bytes;
+	char c;
 	char *new_buf;
 
-	if (lineptr == NULL || n == NULL || stream == NULL)
+	(void)stream;
+
+	if (lineptr == NULL || n == NULL)
 		return (-1);
 
 	if (*lineptr == NULL || *n == 0)
 	{
 		*n = 128;
-		*lineptr = malloc(*n);
+		*lineptr = malloc(sizeof(char) * (*n));
 		if (*lineptr == NULL)
 			return (-1);
 	}
 
-	i = 0;
-	while ((c = fgetc(stream)) != EOF)
+	while (1)
 	{
+		bytes = read(STDIN_FILENO, &c, 1);
+
+		if (bytes == -1)
+			return (-1);
+
+		if (bytes == 0)
+			break;
+
 		if (i + 1 >= *n)
 		{
 			new_size = (*n) * 2;
 			new_buf = realloc(*lineptr, new_size);
 			if (new_buf == NULL)
 				return (-1);
+
 			*lineptr = new_buf;
 			*n = new_size;
 		}
-		(*lineptr)[i] = (char)c;
+
+		(*lineptr)[i] = c;
 		i++;
+
 		if (c == '\n')
 			break;
 	}
 
-	if (i == 0 && c == EOF)
+	if (i == 0)
 		return (-1);
 
 	(*lineptr)[i] = '\0';
+
 	return ((ssize_t)i);
 }
 
