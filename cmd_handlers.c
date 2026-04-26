@@ -139,37 +139,34 @@ int handle_unsetenv_cmd(char **args_arr, int *status, char *line,
  * @program_name: shell program name
  * @line_num: current line number
  *
- * Return: 1 because command was handled
+ * Return: 1 because command was handled, 0 if not cd
  */
 int handle_cd_cmd(char **args_arr, int *status, char *line,
 	char *program_name, int line_num)
 {
 	char *path;
-	(void)status;
+	char oldpwd[CD_BUF_SIZE];
+	int print_pwd;
+
 	(void)line;
-	(void)program_name;
-	(void)line_num;
 
 	if (strcmp(args_arr[0], "cd") != 0)
 		return (0);
 
-	if (args_arr[1] == NULL)
+	if (getcwd(oldpwd, sizeof(oldpwd)) == NULL)
+		oldpwd[0] = '\0';
+
+	path = get_cd_path(args_arr, &print_pwd);
+
+	if (path == NULL || path[0] == '\0' || chdir(path) != 0)
 	{
-		path = _getenv("HOME");
-	}
-	else if (strcmp(args_arr[1], "-") == 0)
-	{
-		path = _getenv("OLDPWD");
-	}
-	else
-	{
-		path = args_arr[1];
+		fprintf(stderr, "%s: %d: cd: can't cd to %s\n",
+			program_name, line_num, path ? path : "");
+		*status = 2;
+		return (1);
 	}
 
-	if (chdir(path) != 0)
-	{
-		perror("cd");
-	}
-
+	update_pwd_vars(oldpwd, print_pwd);
+	*status = 0;
 	return (1);
 }
