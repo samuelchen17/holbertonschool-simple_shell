@@ -3,8 +3,8 @@
 /**
  * fork_and_execve - clone current process and execute command in child
  * @args_arr: argument array created from tokenization
- * @cmd_path: full path to executable
- * @status: status code for program
+ * @cmd_path: full path to command
+ * @status: shell exit status
  */
 void fork_and_execve(char **args_arr, char *cmd_path, int *status)
 {
@@ -15,33 +15,25 @@ void fork_and_execve(char **args_arr, char *cmd_path, int *status)
 	if (pid == -1)
 	{
 		perror("fork failed");
+		free(cmd_path);
 		free_args_arr(args_arr);
 		exit(1);
 	}
-	/* on child creation success */
+
 	if (pid == 0)
 	{
-		/*
-		 * for testing
-		 * printf("token passed: [%s]\n", args_arr[0]);
-		 */
 		execve(cmd_path, args_arr, environ);
 		perror("execve failed");
+		free(cmd_path);
 		free_args_arr(args_arr);
 		exit(1);
 	}
 	else
 	{
-		/* parent to wait for child process to exit */
 		wait(&wstatus);
 
-		/* get exit code of child process */
-		/* true if child terminated normally */
 		if (WIFEXITED(wstatus))
-		{
-			/* set status as the exit status of child process */
 			*status = WEXITSTATUS(wstatus);
-		}
 
 		free(cmd_path);
 		free_args_arr(args_arr);
@@ -54,32 +46,37 @@ void fork_and_execve(char **args_arr, char *cmd_path, int *status)
  *
  * Return: array of arguments
  */
-
 char **get_tokens(char *line)
 {
 	char **args_arr;
-	/* tmp needed as strtok modifies the str */
-	char *token, *tmp = strdup(line);
+	char *token, *tmp;
 	int i = 0, count = 0;
 
-	/* first iteration count tokens for malloc size*/
+	tmp = strdup(line);
+	if (tmp == NULL)
+		return (NULL);
+
 	token = strtok(tmp, " ");
 	while (token != NULL)
 	{
 		count++;
-		/* strtok stores /0 when it stops, by using NULL it will continue to next */
 		token = strtok(NULL, " ");
 	}
 	free(tmp);
 
-	/* allocate exact memory */
 	args_arr = malloc((count + 1) * sizeof(char *));
+	if (args_arr == NULL)
+		return (NULL);
 
-	/* loop to store tokens */
 	token = strtok(line, " ");
 	while (token != NULL)
 	{
 		args_arr[i] = strdup(token);
+		if (args_arr[i] == NULL)
+		{
+			free_args_arr(args_arr);
+			return (NULL);
+		}
 		token = strtok(NULL, " ");
 		i++;
 	}
@@ -90,7 +87,7 @@ char **get_tokens(char *line)
 
 /**
  * shell_program - simple shell
- * @program_name: name of the program
+ * @program_name: shell program name
  */
 
 void shell_program(char *program_name)
@@ -106,24 +103,21 @@ void shell_program(char *program_name)
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-		{
 			printf("$ ");
-		}
 
 		input = getline(&line, &n, stdin);
-
-		/* break loop upon EOF or error*/
 		if (input == -1)
-		{
 			break;
-		}
 
 		line_num++;
-
-		/* remove \n for tokenization */
 		line[strcspn(line, "\n")] = '\0';
 
 		args_arr = get_tokens(line);
+		if (args_arr == NULL || args_arr[0] == NULL)
+		{
+			free_args_arr(args_arr);
+			continue;
+		}
 
 		if (strcmp(args_arr[0], "exit") == 0)
 		{
@@ -139,14 +133,12 @@ void shell_program(char *program_name)
 			continue;
 		}
 
-		/* block invalid command before execve */
 		if (args_arr[0] == NULL)
 		{
 			free_args_arr(args_arr);
 			continue;
 		}
 
-		/* HANDLE PATH LOGIC HERE */
 		cmd_path = handle_path(args_arr[0]);
 
 		if (!cmd_path)
@@ -172,10 +164,10 @@ void shell_program(char *program_name)
  *
  * Return: 0 on success
  */
-
 int main(int argc, char **argv)
 {
 	(void)argc;
 	shell_program(argv[0]);
 	return (0);
 }
+
