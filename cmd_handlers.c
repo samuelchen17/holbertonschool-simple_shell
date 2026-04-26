@@ -29,6 +29,7 @@ int handle_exit_cmd(char **args_arr, int *status, char *line,
 
 	free_args_arr(args_arr);
 	free(line);
+	free_environment();
 	exit(exit_status);
 }
 
