@@ -91,7 +91,7 @@ int handle_setenv_cmd(char **args_arr, int *status, char *line,
 		*status = 0;
 
 	free_args_arr(args_arr);
-	return (BUILTIN_EXIT);
+	return (1);
 }
 
 /**
